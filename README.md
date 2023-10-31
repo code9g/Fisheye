@@ -1,6 +1,3 @@
-# Base de code du projet P6 - Parcours Front-end
+# Fisheye
 
-## Démarrer le projet
-
-Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.
-
+Projet 6 du parcours "**Développeur d'application - JavaScript React**" chez [OpenClassroom](https://openclassrooms.com/fr/).
