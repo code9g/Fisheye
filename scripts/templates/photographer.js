@@ -15,7 +15,6 @@ export function photographerTemplate({
   const link = document.createElement("a");
   link.className = "link";
   link.href = `photographer.html?id=${id}`;
-  link.ariaLabel = `Lien vers le photographe ${name}`;
 
   const img = document.createElement("img");
   img.className = "portrait";
