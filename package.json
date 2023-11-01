@@ -1,0 +1,15 @@
+{
+  "name": "fisheye",
+  "version": "1.0.0",
+  "description": "Projet 6 du parcours \"Développeur d'application - JavaScript React\" chez OpenClassroom",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint scripts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.52.0"
+  }
+}
