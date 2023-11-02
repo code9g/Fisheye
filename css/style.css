@@ -5,6 +5,8 @@
   --secondary-color: #d3573c;
   --tertiary-color: #757575;
 
+  --label-color: #312e2e;
+
   --portrait-size: 200px;
 }
 
@@ -30,6 +32,10 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+label {
+  color: var(--label-color);
 }
 
 header {
@@ -68,18 +74,31 @@ header {
   color: var(--tertiary-color);
 }
 
+.contact_button {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 1.1rem;
+  min-width: 17rem;
+  height: 7rem;
+  border: none;
+  background-color: var(--primary-color);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
 .logo {
   height: 50px;
 }
 
-.photographer_section {
+.photographers {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 7rem;
   margin-top: 10rem;
 }
 
-.photographer_section .card {
+.photographers .card {
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -88,22 +107,22 @@ header {
   font-size: 1.6rem;
 }
 
-.photographer_section .link {
+.photographers .link {
   text-align: center;
 }
 
-.photographer_section .name {
+.photographers .name {
   font-size: 2.25em;
 }
 
-.photographer_section .location {
+.photographer .location {
   font-size: 0.8125em;
 }
 
-.photographer_section .tagline {
+.photographers .tagline {
   font-size: 0.625em;
 }
 
-.photographer_section .price {
+.photographers .price {
   font-size: 0.5625em;
 }

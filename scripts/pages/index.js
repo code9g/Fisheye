@@ -1,15 +1,12 @@
-import { photographerTemplate } from "./../templates/photographer.js";
-
-async function getPhotographers() {
-  return (await fetch("data/photographers.json").then((res) => res.json()))
-    .photographers;
-}
+import { QS_PHOTOGRAPHERS } from "../utils/consts.js";
+import { getPhotographers } from "../utils/data.js";
+import { photographerCardTemplate } from "./../templates/photographerCard.js";
 
 async function displayData(photographers) {
-  const photographersSection = document.querySelector(".photographer_section");
+  const photographersSection = document.querySelector(QS_PHOTOGRAPHERS);
 
   for (const photographer of photographers) {
-    photographersSection.appendChild(photographerTemplate(photographer));
+    photographersSection.appendChild(photographerCardTemplate(photographer));
   }
 }
 
