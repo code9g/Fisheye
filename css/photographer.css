@@ -12,21 +12,87 @@
   margin: 0 100px;
 }
 
+.photograph-filter {
+  padding: 20px 100px 58px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.photograph-filter select {
+  font: inherit;
+  color: #fff;
+  background-color: var(--primary-color);
+  padding: 1rem;
+  border: none;
+}
+
 .photograph-media {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   padding: 0 100px;
-  gap: 30px 95px;
+  gap: 20px 95px;
+}
+
+.photograph-media .link {
+  display: block;
+  width: 350px;
+  height: 300px;
 }
 
 .media {
   object-fit: cover;
+
   width: 100%;
-  height: 300px;
+  height: 100%;
 }
 
 .photograph-media .title {
   font-size: 2.4rem;
+}
+
+.heart {
+  background: transparent no-repeat center / contain
+    url(./../assets/icons/heart.svg) !important;
+}
+
+.card-likes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+}
+
+.btn-like {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7em;
+  height: 1.7em;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-like:hover {
+  animation: beat 0.7s infinite ease-in-out;
+}
+
+@keyframes beat {
+  0%,
+  25%,
+  45%,
+  65%,
+  100% {
+    transform: scale(1);
+  }
+  15%,
+  55% {
+    transform: scale(1.2);
+  }
+  35%,
+  75% {
+    transform: scale(1);
+  }
 }
 
 .btn-primary {

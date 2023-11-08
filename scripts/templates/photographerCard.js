@@ -18,7 +18,7 @@ export function photographerCardTemplate({
 
   const img = document.createElement("img");
   img.className = "portrait";
-  img.src = `assets/thumbs/photographers/${portrait}`;
+  img.src = `${PATH_PHOTOGRAPHERS}/thumb/${portrait}`;
   img.alt = `Portrait du photographe ${name}`;
 
   const h2 = document.createElement("h2");

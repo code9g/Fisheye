@@ -1,7 +1,12 @@
 import { URL_DATA } from "./consts.js";
 
+let data = null;
+
 export async function getData() {
-  return await fetch(URL_DATA).then((res) => res.json());
+  if (data) {
+    return data;
+  }
+  return (data = await fetch(URL_DATA).then((res) => res.json()));
 }
 
 export async function getPhotographers() {

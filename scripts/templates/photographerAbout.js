@@ -30,7 +30,7 @@ export function photographerAboutTemplate({
 
   const img = document.createElement("img");
   img.className = "portrait";
-  img.src = `${PATH_PHOTOGRAPHERS}/${portrait}`;
+  img.src = `${PATH_PHOTOGRAPHERS}/thumb/${portrait}`;
   img.alt = `Photo du photographe ${name}`;
 
   return [about, contact, img];

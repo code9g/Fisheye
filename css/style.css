@@ -8,6 +8,12 @@
   --label-color: #312e2e;
 
   --portrait-size: 200px;
+
+  --portrait-max-size: 200px;
+
+  --media-max-width: 350px;
+  --media-max-height: 300px;
+  --media-aspect-ratio: 350/300;
 }
 
 *,
@@ -20,6 +26,7 @@
 
 html {
   font-size: 62.5%;
+  overflow-y: scroll;
 }
 
 body {
