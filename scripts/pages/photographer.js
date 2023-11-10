@@ -1,6 +1,7 @@
 import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { photographerAboutTemplate } from "../templates/photographerAbout.js";
 import { getData } from "../utils/data.js";
+import { showModal } from "../utils/modal.js";
 
 async function displayAbout(photographer) {
   const section = document.querySelector(".photograph-header");
@@ -17,6 +18,12 @@ async function displayMedia(media) {
   for (const item of media) {
     cards.appendChild(await mediaCardTemplate(item));
   }
+  cards.querySelectorAll(".link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(e.target.closest(".card"));
+    });
+  });
 }
 
 async function displayResume(photographer) {

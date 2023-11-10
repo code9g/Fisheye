@@ -17,7 +17,7 @@
   </header>
   <main id="main">
     <section class="photograph-header">
-      <button class="btn-primary" onclick="displayModal()">Contactez-moi</button>
+
     </section>
     <section class="photograph-filter">
       <label for="sort">Trier par</label>
@@ -31,11 +31,16 @@
     <section class="photograph-media"></section>
     <aside class="photograph-aside"></aside>
   </main>
-  <div id="contact_modal">
-    <div class="modal">
+  <div id="lightbox" class="modal">
+    <div class="modal-content">
+      Lightbox
+    </div>
+  </div>
+  <div id="contact" class="modal show">
+    <div class="modal-content">
       <header>
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" onclick="closeModal()" />
+        <img src="assets/icons/close.svg" data-dismiss="modal">
       </header>
       <form>
         <div class="input-group">

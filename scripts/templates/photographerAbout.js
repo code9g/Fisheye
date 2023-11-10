@@ -1,4 +1,5 @@
 import { PATH_PHOTOGRAPHERS } from "../utils/consts.js";
+import { showModal } from "../utils/modal.js";
 
 export function photographerAboutTemplate({
   name,
@@ -27,6 +28,9 @@ export function photographerAboutTemplate({
   const contact = document.createElement("button");
   contact.className = "btn btn-primary";
   contact.innerText = "Contactez-moi";
+  contact.addEventListener("click", () => {
+    showModal("#contact");
+  });
 
   const img = document.createElement("img");
   img.className = "portrait";
