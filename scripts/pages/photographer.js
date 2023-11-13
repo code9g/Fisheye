@@ -1,6 +1,7 @@
 import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { photographerAboutTemplate } from "../templates/photographerAbout.js";
-import { getData } from "../utils/data.js";
+import { PATH_MEDIA } from "../utils/consts.js";
+import { getData, getMedia } from "../utils/data.js";
 import { showModal } from "../utils/modal.js";
 
 async function displayAbout(photographer) {
@@ -13,17 +14,19 @@ async function displayAbout(photographer) {
 }
 
 async function displayMedia(media) {
+  const lightbox = document.querySelector("#lightbox");
   const cards = document.querySelector(".photograph-media");
   cards.innerHTML = "";
-  for (const item of media) {
-    cards.appendChild(await mediaCardTemplate(item));
-  }
-  cards.querySelectorAll(".link").forEach((link) => {
-    link.addEventListener("click", (e) => {
+  for (let i = 0; i < media.length; i++) {
+    const card = await mediaCardTemplate(media[i]);
+    //card.dataset.key = i;
+    card.querySelector(".link").addEventListener("click", (e) => {
       e.preventDefault();
-      console.log(e.target.closest(".card"));
+      updateLightbox(i);
+      lightbox.showModal();
     });
-  });
+    cards.appendChild(card);
+  }
 }
 
 async function displayResume(photographer) {
@@ -37,59 +40,82 @@ async function displayData(photographer, media) {
   await displayResume(photographer);
 }
 
-function sortByLikes(item1, item2) {
-  return item1.likes - item2.likes;
-}
-
-function sortByDate(item1, item2) {
-  if (item1.date > item2.date) {
-    return +1;
-  } else if (item1.date < item2.date) {
-    return -1;
-  }
-  return 0;
-}
-
-function sortByTitle(item1, item2) {
-  if (item1.title > item2.title) {
-    return +1;
-  } else if (item1.title < item2.title) {
-    return -1;
-  }
-  return 0;
-}
-
 async function init() {
   const params = new URL(window.location).searchParams;
   const id = parseInt(params.get("id"));
 
   const data = await getData();
 
-  const photographer = data.photographers.find(
-    (photographer) => photographer.id === id
-  );
-  const media = new Array();
+  photographer = data.photographers.find((item) => item.id === id);
+  photographer.media = new Array();
   photographer.likes = 0;
   for (const item of data.media) {
     if (item.photographerId === id) {
-      media.push(item);
+      photographer.media.push(item);
       photographer.likes += item.likes ?? 0;
     }
   }
 
   const sortSelect = document.querySelector("#sort");
 
-  function sort() {
-    media.sort([sortByLikes, sortByDate, sortByTitle][sortSelect.value]);
-  }
-
-  sortSelect.addEventListener("change", () => {
-    sort();
-    displayMedia(media);
+  sortSelect.addEventListener("change", async () => {
+    photographer.media = await getMedia(photographer, 0, -1, sortSelect.value);
+    displayMedia(photographer.media);
   });
-  sort();
+  photographer.media = await getMedia(photographer, 0, -1, sortSelect.value);
 
-  displayData(photographer, media);
+  displayData(photographer, photographer.media);
+
+  lbPrevious.addEventListener("click", (e) => {
+    e.preventDefault();
+    updateLightbox(current - 1);
+  });
+  lbNext.addEventListener("click", (e) => {
+    e.preventDefault();
+    updateLightbox(current + 1);
+  });
 }
+
+const lightbox = document.querySelector("#lightbox");
+const lbMedia = lightbox.querySelector(".lightbox-figure");
+const lbPrevious = lightbox.querySelector(".btn-previous");
+const lbNext = lightbox.querySelector(".btn-next");
+let current = -1;
+
+function updateLightbox(index) {
+  if (index < 0) {
+    index = 0;
+  } else if (index >= photographer.media.length) {
+    index = photographer.media.length - 1;
+  }
+  current = index;
+  const media = photographer.media[index] ?? null;
+  if (media) {
+    let content = "";
+    if (media.image) {
+      content = `<img src="${PATH_MEDIA}/${photographer.id}/${media.image}" alt="${media.title}">`;
+    } else if (media.video) {
+      content = `<video src="${PATH_MEDIA}/${photographer.id}/${media.video}" title="${media.title}" controls></video>`;
+    } else {
+      // ...
+    }
+    lbMedia.innerHTML = `${content}<figcaption>${media.title}</figcaption>`;
+    if (index > 0) {
+      lbPrevious.classList.remove("hidden");
+    } else {
+      lbPrevious.classList.add("hidden");
+    }
+    if (index < photographer.media.length - 1) {
+      lbNext.classList.remove("hidden");
+    } else {
+      lbNext.classList.add("hidden");
+    }
+    if (!lightbox.open) {
+      lightbox.showModal();
+    }
+  }
+}
+
+let photographer;
 
 init();

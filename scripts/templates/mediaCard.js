@@ -31,10 +31,9 @@ async function mediaElement(media) {
 }
 
 export async function mediaCardTemplate(media) {
-  const { id, title, likes } = media;
+  const { title, likes } = media;
   const article = document.createElement("article");
   article.className = "card";
-  article.dataset.id = id;
 
   article.appendChild(await mediaElement(media));
 

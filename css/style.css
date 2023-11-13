@@ -25,6 +25,7 @@
 }
 
 html {
+  position: relative;
   font-size: 62.5%;
   overflow-y: scroll;
 }
@@ -34,6 +35,17 @@ body {
   font-size: 1.6rem;
   max-width: 1440px;
   margin: 0 auto;
+}
+
+img,
+svg,
+video,
+picture {
+  display: block;
+}
+
+dialog {
+  border: none;
 }
 
 a {

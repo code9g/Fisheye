@@ -1,8 +1,100 @@
-html {
-  position: relative;
+#lightbox {
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  padding: 2rem;
+  border-radius: 0.5rem;
 }
 
-.modal {
+#lightbox::backdrop {
+  background-color: white;
+}
+
+#lightbox[open] {
+  display: flex;
+}
+
+#lightbox .content {
+  display: grid;
+  grid-template-columns: 7.2rem 1fr 7.2rem;
+  grid-template-rows: 7.2rem 1fr 7.2rem;
+  grid-template-areas:
+    "empty1 figure close"
+    "previous figure next"
+    "empty2 figure empty3";
+}
+
+#lightbox .lightbox-figure {
+  grid-area: figure;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+
+  font-size: 2.4rem;
+  color: var(--primary-color);
+}
+
+#lightbox img,
+#lightbox video {
+  object-fit: contain;
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 80vh;
+}
+
+#contact::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.btn-previous,
+.btn-next,
+.btn-close {
+  display: block;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  width: 100%;
+  aspect-ratio: 1;
+  xheight: 9.6rem;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  align-self: center;
+}
+
+#lightbox .btn-close {
+  grid-area: close;
+  background-image: url(../assets/icons/close-24px\ 1.svg);
+}
+
+#lightbox .btn-previous {
+  grid-area: previous;
+  background-image: url(../assets/icons/expand_more-24px\ 4.svg);
+}
+
+#lightbox .btn-next {
+  grid-area: next;
+  background-image: url(../assets/icons/expand_more-24px\ 5.svg);
+}
+
+.sr-only {
+  display: none;
+}
+
+x.modal {
   position: absolute;
   display: none;
   background-color: rgba(0, 0, 0, 0.3);
@@ -12,7 +104,7 @@ html {
   height: 100%;
 }
 
-.modal.show {
+x.modal.show {
   display: block;
 }
 
@@ -178,4 +270,16 @@ form input {
   height: 68px;
   border: none;
   border-radius: 5px;
+}
+
+.photograph-aside {
+  position: fixed;
+  display: flex;
+  gap: 2em;
+  bottom: 0;
+  right: calc(50vw - 670px);
+  padding: 3rem;
+  background-color: #db8876;
+  font-size: 2.4rem;
+  font-weight: bold;
 }

@@ -4,43 +4,41 @@
 <head>
   <meta charset="utf-8">
   <link href="css/style.css" rel="stylesheet" type="text/css">
+
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
   <title>Fisheye - photographe </title>
 </head>
 
 <body>
-  <header class="l-header">
+  <header class="l-header" aria-hidden="false">
     <a class="brand" href="index.html" aria-label="Retourner sur la page d'accueil">
       <img src="assets/images/logo.png" class="logo" alt="fisheye logo">
     </a>
   </header>
-  <main id="main">
+  <main id="main" aria-hidden="false">
     <section class="photograph-header">
-
     </section>
     <section class="photograph-filter">
       <label for="sort">Trier par</label>
       <select id="sort">
-        <option value="0">Popularité</option>
-        <option value="1">Date</option>
-        <option value="2">Titre</option>
+        <option value="likes">Popularité</option>
+        <option value="date">Date</option>
+        <option value="title">Titre</option>
       </select>
-
     </section>
     <section class="photograph-media"></section>
-    <aside class="photograph-aside"></aside>
+    <aside class="photograph-aside">
+      <div><span id="totalLikes">0</span>&nbsp;<i class="fa-solid fa-heart"></i></div>
+      <div><span id="price">0</span>&nbsp;&euro;&nbsp;/&nbsp;jour</div>
+    </aside>
   </main>
-  <div id="lightbox" class="modal">
-    <div class="modal-content">
-      Lightbox
-    </div>
-  </div>
-  <div id="contact" class="modal show">
+
+  <dialog id="contact" aria-hidden="true">
     <div class="modal-content">
       <header>
         <h2>Contactez-moi</h2>
-        <img src="assets/icons/close.svg" data-dismiss="modal">
+        <img src="assets/icons/close.svg" data-dismiss="dialog">
       </header>
       <form>
         <div class="input-group">
@@ -62,7 +60,17 @@
         <button class="btn-primary" type="submit">Envoyer</button>
       </form>
     </div>
-  </div>
+  </dialog>
+
+  <dialog id="lightbox" aria-hidden="true">
+    <div class="content">
+      <button class="btn-previous" type="button"><span class="sr-only">Précédent</span></button>
+      <figure class="lightbox-figure"></figure>
+      <button class="btn-close" data-dismiss="dialog"><span class="sr-only">Fermer</span></button>
+      <button class="btn-next" type="button"><span class="sr-only">Suivant</span></button>
+    </div>
+  </dialog>
+  <script src="https://kit.fontawesome.com/4eec2abd39.js" crossorigin="anonymous"></script>
   <script type="module" src="scripts/pages/photographer.js"></script>
 </body>
 
