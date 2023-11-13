@@ -48,11 +48,9 @@
   padding: 0.5em 0;
 }
 
-#lightbox img,
-#lightbox video {
+#lightbox .media {
   border-radius: 0.5rem;
   object-fit: contain;
-  overflow: hidden;
   max-width: 100%;
   max-height: 80vh;
 }
@@ -99,10 +97,6 @@ x.modal {
   height: 100%;
 }
 
-x.modal.show {
-  display: block;
-}
-
 .modal-content {
   position: fixed;
   top: 150px;
@@ -140,7 +134,6 @@ x.modal.show {
   justify-content: space-between;
   align-items: center;
   padding: 50px;
-  xheight: 300px;
   margin: 0 100px;
 }
 
@@ -154,6 +147,7 @@ x.modal.show {
   font: inherit;
   color: #fff;
   background-color: var(--primary-color);
+  margin-left: 1rem;
   padding: 1rem;
   border: none;
 }
@@ -171,7 +165,7 @@ x.modal.show {
   height: 300px;
 }
 
-.media {
+.photograph-media .media {
   object-fit: cover;
 
   width: 100%;

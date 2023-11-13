@@ -17,30 +17,29 @@ async function displayMedia(photographer) {
   const cards = document.querySelector(".photograph-media");
   cards.innerHTML = "";
   for (let i = 0; i < photographer.media.length; i++) {
-    const item = photographer.media[i];
+    const media = photographer.media[i];
 
-    const card = await mediaCardTemplate(item);
+    const card = await mediaCardTemplate(media);
     card.dataset.key = i;
 
     card.querySelector(".btn-like").addEventListener("click", (e) => {
       e.preventDefault();
-      const heart = e.target;
-      if (item.liked) {
-        item.liked = false;
-        item.likes--;
+      const heart = e.currentTarget.querySelector(".fa-heart");
+      if (media.liked) {
+        media.liked = false;
+        media.likes--;
         photographer.likes--;
         heart.classList.remove("fa-solid");
         heart.classList.add("fa-regular");
       } else {
-        item.liked = true;
-        item.likes++;
+        media.liked = true;
+        media.likes++;
         photographer.likes++;
         heart.classList.remove("fa-regular");
         heart.classList.add("fa-solid");
       }
       totalLikes.innerText = photographer.likes;
-      e.target.closest(".card-likes").querySelector(".likes-info").innerText =
-        item.likes;
+      card.querySelector(".likes-info").innerText = media.likes;
     });
 
     card.querySelector(".link").addEventListener("click", (e) => {
@@ -139,9 +138,9 @@ function updateLightbox(index) {
   if (media) {
     let content = "";
     if (media.image) {
-      content = `<img src="${PATH_MEDIA}/${photographer.id}/${media.image}" alt="${media.title}">`;
+      content = `<img class="media" src="${PATH_MEDIA}/${photographer.id}/${media.image}" alt="${media.title}">`;
     } else if (media.video) {
-      content = `<video src="${PATH_MEDIA}/${photographer.id}/${media.video}" title="${media.title}" controls></video>`;
+      content = `<video class="media" src="${PATH_MEDIA}/${photographer.id}/${media.video}" title="${media.title}" controls></video>`;
     } else {
       // ...
     }
