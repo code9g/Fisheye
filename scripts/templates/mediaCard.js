@@ -39,9 +39,6 @@ export async function mediaCardTemplate(media) {
 
   const div = document.createElement("div");
   div.className = "card-body";
-  div.style.display = "flex";
-  div.style.justifyContent = "space-between";
-  div.style.alignItems = "center";
 
   const h3 = document.createElement("h3");
   h3.className = "title";
@@ -58,13 +55,13 @@ export async function mediaCardTemplate(media) {
   const btn = document.createElement("button");
   btn.className = "btn-like heart";
 
-  btn.classList.add(media.liked ? "heart-fill" : "heart-empty");
-
   btn.type = "button";
   btn.ariaLabel = "Ajouter un like";
+  btn.innerHTML = `<i class="fa-${
+    media.liked ? "solid" : "regular"
+  } fa-heart"></i>`;
 
   likesDiv.appendChild(btn);
-  //likesDiv.innerHTML = `<span class="likes-info">${likes}</span><button class="btn-like" type="button" aria-label="Ajouter un like"><span class="heart"></span></button>`;
 
   div.appendChild(h3);
   div.appendChild(likesDiv);

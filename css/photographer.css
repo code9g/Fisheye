@@ -44,7 +44,7 @@
   color: var(--primary-color);
 }
 
-#lightbox figcaption {
+#lightbox .caption {
   padding: 0.5em 0;
 }
 
@@ -57,9 +57,7 @@
   max-height: 80vh;
 }
 
-#lightbox .btn-previous,
-#lightbox .btn-next,
-#lightbox .btn-close {
+#lightbox .btn {
   display: block;
   align-self: center;
   cursor: pointer;
@@ -68,6 +66,11 @@
   background: transparent;
   width: 1em;
   height: 1em;
+}
+
+#lightbox .btn:disabled {
+  cursor: unset;
+  color: #d3d3d3;
 }
 
 #lightbox .btn-close {
@@ -179,49 +182,29 @@ x.modal.show {
   font-size: 2.4rem;
 }
 
-.heart {
-  background: transparent no-repeat center / contain
-    url(./../assets/icons/heart.svg) !important;
+.photograph-media .card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 1rem;
+  font-size: 2.4rem;
+  font-weight: bold;
 }
 
 .card-likes {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  color: var(--primary-color);
+  padding-left: 0.5em;
   gap: 0.25em;
 }
 
 .btn-like {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.7em;
-  height: 1.7em;
   border: none;
   background: none;
   cursor: pointer;
-}
-
-.btn-like:hover {
-  animation: beat 0.7s infinite ease-in-out;
-}
-
-@keyframes beat {
-  0%,
-  25%,
-  45%,
-  65%,
-  100% {
-    transform: scale(1);
-  }
-  15%,
-  55% {
-    transform: scale(1.2);
-  }
-  35%,
-  75% {
-    transform: scale(1);
-  }
 }
 
 .btn-primary {
@@ -270,7 +253,7 @@ form input {
   gap: 2em;
   bottom: 0;
   right: calc(50vw - 670px);
-  padding: 3rem;
+  padding: 2rem 3rem;
   background-color: #db8876;
   font-size: 2.4rem;
   font-weight: bold;

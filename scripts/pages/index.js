@@ -1,5 +1,5 @@
 import { QS_PHOTOGRAPHERS } from "../utils/consts.js";
-import { getPhotographers } from "../utils/data.js";
+import { getData } from "../utils/data.js";
 import { photographerCardTemplate } from "./../templates/photographerCard.js";
 
 async function displayData(photographers) {
@@ -12,7 +12,7 @@ async function displayData(photographers) {
 
 async function init() {
   // Récupère les datas des photographes
-  const photographers = await getPhotographers();
+  const photographers = (await getData()).photographers;
   displayData(photographers);
 }
 

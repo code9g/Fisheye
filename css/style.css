@@ -55,6 +55,7 @@ a {
 
 button {
   color: inherit;
+  font-size: inherit;
 }
 
 label {

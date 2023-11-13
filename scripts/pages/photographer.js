@@ -24,18 +24,19 @@ async function displayMedia(photographer) {
 
     card.querySelector(".btn-like").addEventListener("click", (e) => {
       e.preventDefault();
+      const heart = e.target;
       if (item.liked) {
         item.liked = false;
         item.likes--;
         photographer.likes--;
-        e.target.classList.remove("heart-fill");
-        e.target.classList.add("heart-empty");
+        heart.classList.remove("fa-solid");
+        heart.classList.add("fa-regular");
       } else {
         item.liked = true;
         item.likes++;
         photographer.likes++;
-        e.target.classList.remove("heart-empty");
-        e.target.classList.add("heart-fill");
+        heart.classList.remove("fa-regular");
+        heart.classList.add("fa-solid");
       }
       totalLikes.innerText = photographer.likes;
       e.target.closest(".card-likes").querySelector(".likes-info").innerText =
@@ -144,11 +145,11 @@ function updateLightbox(index) {
     } else {
       // ...
     }
-    lbMedia.innerHTML = `${content}<figcaption>${media.title}</figcaption>`;
+    lbMedia.innerHTML = `${content}<figcaption class="caption">${media.title}</figcaption>`;
     if (index > 0) {
-      lbPrevious.classList.remove("hidden");
+      lbPrevious.disabled = false;
     } else {
-      lbPrevious.classList.add("hidden");
+      lbPrevious.disabled = true;
     }
     if (index < photographer.media.length - 1) {
       lbNext.classList.remove("hidden");
