@@ -3,21 +3,41 @@ const CLOSE_EVENT = "close";
 
 export function showModal(target) {
   if (target instanceof HTMLElement) {
-    target.classList.add("show");
+    if (target.tagName === "DIALOG") {
+      target.showModal();
+    } else {
+      console.error("target ne cible pas une balise DIALOG");
+    }
   } else if (target instanceof String || typeof target === "string") {
-    document.querySelector(target)?.classList.add("show");
+    target = document.querySelector("target");
+    if (target) {
+      showModal(target);
+    } else {
+      console.error("target n'est pas un sélecteur CSS valide !");
+    }
+  } else {
+    console.error("target doit être de type HTMLElement ou un sélecteur CSS !");
   }
 }
 
 export function closeModal(target = null) {
   if (target === null) {
-    document.querySelectorAll(".modal.show").forEach((modal) => {
-      modal.classList.remove("show");
+    document.querySelectorAll("dialog[open]").forEach((dialog) => {
+      dialog.close();
     });
   } else if (target instanceof HTMLElement) {
-    target.classList.remove("show");
+    if (target.tagName === "DIALOG") {
+      target.close();
+    } else {
+      console.error("target ne cible pas une balise DIALOG");
+    }
   } else if (target instanceof String || typeof target === "string") {
-    document.querySelector("element")?.classList.remove("show");
+    target = document.querySelector(target);
+    if (target) {
+      closeModal(target);
+    } else {
+      console.error("target n'est pas un sélecteur CSS valide !");
+    }
   }
 }
 
@@ -52,14 +72,13 @@ function init() {
     dialog.addEventListener(OPEN_EVENT, () => {
       setAriaHiddenList(true);
       dialog.ariaHidden = false;
-      console.log("open");
     });
     dialog.addEventListener(CLOSE_EVENT, () => {
       dialog.ariaHidden = true;
       setAriaHiddenList(false);
-      console.log("close");
     });
   });
+
   document
     .querySelectorAll("[data-toggle=dialog][data-target]")
     .forEach((element) => {
@@ -71,9 +90,9 @@ function init() {
         });
       }
     });
+
   document.querySelectorAll("[data-dismiss=dialog]").forEach((element) => {
     const target = element.closest("dialog");
-    console.log(target, element);
     if (target) {
       element.addEventListener("click", () => {
         target.close();

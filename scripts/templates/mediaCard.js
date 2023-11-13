@@ -34,7 +34,7 @@ export async function mediaCardTemplate(media) {
   const { title, likes } = media;
   const article = document.createElement("article");
   article.className = "card";
-
+  article.dataset.id = media.id;
   article.appendChild(await mediaElement(media));
 
   const div = document.createElement("div");
@@ -57,28 +57,11 @@ export async function mediaCardTemplate(media) {
 
   const btn = document.createElement("button");
   btn.className = "btn-like heart";
+
   btn.classList.add(media.liked ? "heart-fill" : "heart-empty");
 
   btn.type = "button";
   btn.ariaLabel = "Ajouter un like";
-
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log(media.liked);
-    if (media.liked) {
-      media.liked = false;
-      media.likes--;
-      e.target.classList.remove("heart-fill");
-      e.target.classList.add("heart-empty");
-    } else {
-      media.liked = true;
-      media.likes++;
-      e.target.classList.remove("heart-empty");
-      e.target.classList.add("heart-fill");
-    }
-    e.target.closest(".card-likes").querySelector(".likes-info").innerText =
-      media.likes;
-  });
 
   likesDiv.appendChild(btn);
   //likesDiv.innerHTML = `<span class="likes-info">${likes}</span><button class="btn-like" type="button" aria-label="Ajouter un like"><span class="heart"></span></button>`;

@@ -1,8 +1,8 @@
-import { mediaCardTemplate } from "../templates/mediaCard.js";
-import { photographerAboutTemplate } from "../templates/photographerAbout.js";
 import { PATH_MEDIA } from "../utils/consts.js";
-import { getData, getMedia } from "../utils/data.js";
+import { getData } from "../utils/data.js";
 import { showModal } from "../utils/modal.js";
+import { photographerAboutTemplate } from "../templates/photographerAbout.js";
+import { mediaCardTemplate } from "../templates/mediaCard.js";
 
 async function displayAbout(photographer) {
   const section = document.querySelector(".photograph-header");
@@ -13,30 +13,52 @@ async function displayAbout(photographer) {
   }
 }
 
-async function displayMedia(media) {
-  const lightbox = document.querySelector("#lightbox");
+async function displayMedia(photographer) {
   const cards = document.querySelector(".photograph-media");
   cards.innerHTML = "";
-  for (let i = 0; i < media.length; i++) {
-    const card = await mediaCardTemplate(media[i]);
-    //card.dataset.key = i;
+  for (let i = 0; i < photographer.media.length; i++) {
+    const item = photographer.media[i];
+
+    const card = await mediaCardTemplate(item);
+    card.dataset.key = i;
+
+    card.querySelector(".btn-like").addEventListener("click", (e) => {
+      e.preventDefault();
+      if (item.liked) {
+        item.liked = false;
+        item.likes--;
+        photographer.likes--;
+        e.target.classList.remove("heart-fill");
+        e.target.classList.add("heart-empty");
+      } else {
+        item.liked = true;
+        item.likes++;
+        photographer.likes++;
+        e.target.classList.remove("heart-empty");
+        e.target.classList.add("heart-fill");
+      }
+      totalLikes.innerText = photographer.likes;
+      e.target.closest(".card-likes").querySelector(".likes-info").innerText =
+        item.likes;
+    });
+
     card.querySelector(".link").addEventListener("click", (e) => {
       e.preventDefault();
       updateLightbox(i);
-      lightbox.showModal();
+      showModal(lightbox);
     });
     cards.appendChild(card);
   }
 }
 
 async function displayResume(photographer) {
-  // ...
-  console.log(photographer);
+  totalLikes.innerText = photographer.likes;
+  price.innerText = photographer.price;
 }
 
-async function displayData(photographer, media) {
+async function displayData(photographer) {
   await displayAbout(photographer);
-  await displayMedia(media);
+  await displayMedia(photographer);
   await displayResume(photographer);
 }
 
@@ -58,11 +80,30 @@ async function init() {
 
   const sortSelect = document.querySelector("#sort");
 
-  sortSelect.addEventListener("change", async () => {
-    photographer.media = await getMedia(photographer, 0, -1, sortSelect.value);
-    displayMedia(photographer.media);
+  function sort(column) {
+    switch (column) {
+      case "likes":
+        photographer.media.sort((item1, item2) => {
+          return item1.likes - item2.likes;
+        });
+        break;
+      default:
+        photographer.media.sort((item1, item2) => {
+          if (item1[column] > item2[column]) {
+            return +1;
+          } else if (item1[column] < item2[column]) {
+            return -1;
+          }
+          return 0;
+        });
+    }
+  }
+
+  sortSelect.addEventListener("change", () => {
+    sort(sortSelect.value);
+    displayMedia(photographer);
   });
-  photographer.media = await getMedia(photographer, 0, -1, sortSelect.value);
+  sort(sortSelect.value);
 
   displayData(photographer, photographer.media);
 
@@ -70,11 +111,15 @@ async function init() {
     e.preventDefault();
     updateLightbox(current - 1);
   });
+
   lbNext.addEventListener("click", (e) => {
     e.preventDefault();
     updateLightbox(current + 1);
   });
 }
+
+const totalLikes = document.querySelector("#totalLikes");
+const price = document.querySelector("#price");
 
 const lightbox = document.querySelector("#lightbox");
 const lbMedia = lightbox.querySelector(".lightbox-figure");
@@ -109,9 +154,6 @@ function updateLightbox(index) {
       lbNext.classList.remove("hidden");
     } else {
       lbNext.classList.add("hidden");
-    }
-    if (!lightbox.open) {
-      lightbox.showModal();
     }
   }
 }
