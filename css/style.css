@@ -37,14 +37,15 @@ body {
 }
 
 img,
-svg,
-video,
-picture {
+video {
   display: block;
 }
 
 dialog {
   border: none;
+  background-color: transparent;
+  border-radius: 0.5rem;
+  margin: auto;
 }
 
 a {
@@ -61,7 +62,15 @@ label {
   color: var(--label-color);
 }
 
-header {
+input,
+textarea {
+  font: inherit;
+  padding: 0.25em;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.l-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

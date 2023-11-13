@@ -11,6 +11,7 @@ async function displayAbout(photographer) {
   for (const item of about) {
     section.appendChild(item);
   }
+  document.querySelector("#photographer-name").innerHTML = photographer.name;
 }
 
 async function displayMedia(photographer) {
