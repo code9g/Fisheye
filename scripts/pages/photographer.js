@@ -81,25 +81,6 @@ async function init() {
 
   const sortSelect = document.querySelector("#sort");
 
-  function sort(column) {
-    switch (column) {
-      case "likes":
-        photographer.media.sort((item1, item2) => {
-          return item1.likes - item2.likes;
-        });
-        break;
-      default:
-        photographer.media.sort((item1, item2) => {
-          if (item1[column] > item2[column]) {
-            return +1;
-          } else if (item1[column] < item2[column]) {
-            return -1;
-          }
-          return 0;
-        });
-    }
-  }
-
   sortSelect.addEventListener("change", () => {
     sort(sortSelect.value);
     displayMedia(photographer);
@@ -110,12 +91,27 @@ async function init() {
 
   lbPrevious.addEventListener("click", (e) => {
     e.preventDefault();
-    updateLightbox(current - 1);
+    previousLightbox();
   });
 
   lbNext.addEventListener("click", (e) => {
     e.preventDefault();
-    updateLightbox(current + 1);
+    nextLightbox();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "ArrowLeft":
+        if (lightbox.open) {
+          previousLightbox();
+        }
+        break;
+      case "ArrowRight":
+        if (lightbox.open) {
+          nextLightbox();
+        }
+        break;
+    }
   });
 }
 
@@ -127,6 +123,33 @@ const lbMedia = lightbox.querySelector(".lightbox-figure");
 const lbPrevious = lightbox.querySelector(".btn-previous");
 const lbNext = lightbox.querySelector(".btn-next");
 let current = -1;
+
+function sort(column) {
+  switch (column) {
+    case "likes":
+      photographer.media.sort((item1, item2) => {
+        return item1.likes - item2.likes;
+      });
+      break;
+    default:
+      photographer.media.sort((item1, item2) => {
+        if (item1[column] > item2[column]) {
+          return +1;
+        } else if (item1[column] < item2[column]) {
+          return -1;
+        }
+        return 0;
+      });
+  }
+}
+
+function nextLightbox() {
+  updateLightbox(current + 1);
+}
+
+function previousLightbox() {
+  updateLightbox(current - 1);
+}
 
 function updateLightbox(index) {
   if (index < 0) {
@@ -145,7 +168,7 @@ function updateLightbox(index) {
     } else {
       // ...
     }
-    lbMedia.innerHTML = `${content}<figcaption class="caption">${media.title}</figcaption>`;
+    lbMedia.innerHTML = `${content}<figcaption tabindex="3" class="caption">${media.title}</figcaption>`;
     if (index > 0) {
       lbPrevious.disabled = false;
     } else {

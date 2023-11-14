@@ -37,47 +37,47 @@
   <dialog id="contact" aria-hidden="true">
     <form method="dialog" class="content">
       <header class="modal-header">
-        <h2>
+        <h2 tabindex="2">
           Contactez-moi
           <br>
           <span id="photographer-name">Test</span>
         </h2>
-        <button class="btn-close" type="button" aria-label="Fermer" data-dismiss="dialog"><img
+        <button tabindex="12" class="btn-close" type="button" aria-label="Fermer" data-dismiss="dialog"><img
             src="assets/icons/close.svg" alt="Fermer"></button>
       </header>
       <div class="modal-body">
         <div class="input-group">
-          <label class="input-label" for="firstname">Prénom</label>
-          <input class="input-control" type="text" id="firstname" name="firstname" minlength="2" required>
+          <label tabindex="3" class="input-label" for="firstname">Prénom</label>
+          <input tabindex="4" class="input-control" type="text" id="firstname" name="firstname" minlength="2" required>
         </div>
         <div class="input-group">
-          <label class="input-label" for="lastname">Nom</label>
-          <input class="input-control" name="lastname" id="lastname" type="text" minlength="2" required>
+          <label tabindex="5" class="input-label" for="lastname">Nom</label>
+          <input tabindex="6" class="input-control" name="lastname" id="lastname" type="text" minlength="2" required>
         </div>
         <div class="input-group">
-          <label class="input-label" for="email">Email</label>
-          <input class="input-control" id="email" name="email" type="email" required>
+          <label tabindex="7" class="input-label" for="email">Email</label>
+          <input tabindex="8" class="input-control" id="email" name="email" type="email" required>
         </div>
         <div class="input-group">
-          <label class="input-label" for="message">Votre message</label>
-          <textarea class="input-text" id="message" name="message" required></textarea>
+          <label tabindex="9" class="input-label" for="message">Votre message</label>
+          <textarea tabindex="10" class="input-text" id="message" name="message" required></textarea>
         </div>
       </div>
       <footer class="modal-footer">
-        <button class="btn-primary" type="submit">Envoyer</button>
+        <button tabindex="11" class="btn-primary" type="submit">Envoyer</button>
       </footer>
     </form>
   </dialog>
 
   <dialog id="lightbox" aria-hidden="true">
     <div class="content">
-      <button class="btn btn-previous" type="button"><i class="fa-solid fa-angle-left" aria-hidden="true"></i><span
-          class="sr-only">Précédent</span></button>
-      <figure class="lightbox-figure"></figure>
-      <button class="btn btn-close" data-dismiss="dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i><span
-          class="sr-only">Fermer</span></button>
-      <button class="btn btn-next" type="button"><i class="fa-solid fa-angle-right" aria-hidden="true"></i><span
-          class="sr-only">Suivant</span></button>
+      <button tabindex="4" class="btn btn-previous" type="button"><i class="fa-solid fa-angle-left"
+          aria-hidden="true"></i><span class="sr-only">Précédent</span></button>
+      <figure tabindex="2" class="lightbox-figure"></figure>
+      <button tabindex="6" class="btn btn-close" data-dismiss="dialog"><i class="fa-solid fa-xmark"
+          aria-hidden="true"></i><span class="sr-only">Fermer</span></button>
+      <button tabindex="5" class="btn btn-next" type="button"><i class="fa-solid fa-angle-right"
+          aria-hidden="true"></i><span class="sr-only">Suivant</span></button>
     </div>
   </dialog>
   <script src="https://kit.fontawesome.com/4eec2abd39.js" crossorigin="anonymous"></script>
