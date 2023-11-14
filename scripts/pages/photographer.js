@@ -1,20 +1,19 @@
-import { PATH_MEDIA } from "../utils/consts.js";
+import { PATH_MEDIA, PATH_PHOTOGRAPHERS } from "../utils/consts.js";
 import { getData } from "../utils/data.js";
 import { showModal } from "../utils/modal.js";
-import { photographerAboutTemplate } from "../templates/photographerAbout.js";
 import { mediaCardTemplate } from "../templates/mediaCard.js";
 
 async function displayAbout(photographer) {
   const section = document.querySelector(".photograph-header");
-  const about = photographerAboutTemplate(photographer);
-  section.innerHTML = "";
-  for (const item of about) {
-    section.appendChild(item);
-  }
+  section.querySelector(".name").innerText = photographer.name;
+  section.querySelector(
+    ".location"
+  ).innerText = `${photographer.city}, ${photographer.country}`;
+  section.querySelector(".tagline").innerText = photographer.tagline;
+  const portrait = section.querySelector(".portrait");
+  portrait.src = `${PATH_PHOTOGRAPHERS}/thumb/${photographer.portrait}`;
+  portrait.alt = `Photo du photographe ${name}`;
   document.querySelector("#photographer-name").innerHTML = photographer.name;
-  section.querySelector(".btn").addEventListener("click", () => {
-    document.querySelector("#contact").showModal();
-  });
 }
 
 async function displayMedia(photographer) {
