@@ -12,6 +12,9 @@ async function displayAbout(photographer) {
     section.appendChild(item);
   }
   document.querySelector("#photographer-name").innerHTML = photographer.name;
+  section.querySelector(".btn").addEventListener("click", () => {
+    document.querySelector("#contact").showModal();
+  });
 }
 
 async function displayMedia(photographer) {

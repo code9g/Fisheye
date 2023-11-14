@@ -27,10 +27,6 @@ export function photographerAboutTemplate({
   const contact = document.createElement("button");
   contact.className = "btn btn-primary";
   contact.innerText = "Contactez-moi";
-  contact.addEventListener("click", () => {
-    document.querySelector("#contact").showModal();
-    console.log(document.querySelector("#contact"));
-  });
 
   const img = document.createElement("img");
   img.className = "portrait";
