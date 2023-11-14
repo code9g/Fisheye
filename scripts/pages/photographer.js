@@ -159,29 +159,13 @@ function updateLightbox(index) {
   } else if (index >= photographer.media.length) {
     index = photographer.media.length - 1;
   }
-  current = index;
-  const media = photographer.media[index] ?? null;
-  if (media) {
-    let content = "";
-    if (media.image) {
-      content = `<img class="media" src="${PATH_MEDIA}/${photographer.id}/${media.image}" alt="${media.title}">`;
-    } else if (media.video) {
-      content = `<video class="media" src="${PATH_MEDIA}/${photographer.id}/${media.video}" title="${media.title}" controls></video>`;
-    } else {
-      // ...
-    }
-    lbMedia.innerHTML = `${content}<figcaption tabindex="3" class="caption">${media.title}</figcaption>`;
-    if (index > 0) {
-      lbPrevious.disabled = false;
-    } else {
-      lbPrevious.disabled = true;
-    }
-    if (index < photographer.media.length - 1) {
-      lbNext.classList.remove("hidden");
-    } else {
-      lbNext.classList.add("hidden");
-    }
-  }
+  const media = photographer.media[(current = index)];
+  const content = media.image
+    ? `<img class="media" src="${PATH_MEDIA}/${photographer.id}/${media.image}" alt="${media.title}">`
+    : `<video class="media" src="${PATH_MEDIA}/${photographer.id}/${media.video}" title="${media.title}" controls></video>`;
+  lbMedia.innerHTML = `${content}<figcaption tabindex="3" class="caption">${media.title}</figcaption>`;
+  lbPrevious.disabled = index <= 0;
+  lbNext.disabled = index >= photographer.media.length - 1;
 }
 
 let photographer;
