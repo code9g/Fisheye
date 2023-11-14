@@ -24,6 +24,7 @@ async function mediaElement(media) {
 
   const link = document.createElement("a");
   link.className = "link";
+  link.ariaLabel = media.title;
   link.href = href;
   link.appendChild(elem);
 
