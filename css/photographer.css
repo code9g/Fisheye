@@ -83,6 +83,7 @@
 
 #contact {
   width: min(50%, 720px);
+  box-shadow: -5px 10px 30px 0px rgba(0, 0, 0, 0.25);
 }
 
 #contact::backdrop {
@@ -234,6 +235,11 @@
   border-radius: 0.5rem;
   color: #ffffff;
   background-color: var(--primary-color);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--secondary-color);
 }
 
 .photograph-aside {
