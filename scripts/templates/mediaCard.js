@@ -1,31 +1,42 @@
 import { PATH_ASSETS, PATH_MEDIA } from "../utils/consts.js";
 
-async function mediaElement(media) {
+export async function getMediaFactory(media, thumbnail = false) {
   let elem;
-  let href;
+  let ref;
   if (media.image) {
     elem = document.createElement("img");
-    elem.src = `${PATH_MEDIA}/${media.photographerId}/thumb/${media.image}`;
-    href = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
+    elem.src = `${PATH_MEDIA}/${media.photographerId}${
+      thumbnail ? "/thumb" : ""
+    }/${media.image}`;
+    ref = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
     elem.alt = media.title;
     elem.className = "media picture";
   } else if (media.video) {
     elem = document.createElement("video");
     elem.src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
-    elem.alt = media.title;
-    href = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
+    ref = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
+    if (!thumbnail) {
+      elem.setAttribute("controls", "");
+    }
     elem.className = "media video";
   } else {
     elem = document.createElement("img");
     elem.src = `${PATH_ASSETS}/images/no-elem.jpg`;
     elem.alt = media.title;
+    ref = `${PATH_ASSETS}/images/no-elem.jpg`;
     elem.className = "media picture";
   }
+
+  return { ref, elem };
+}
+
+async function mediaElement(media) {
+  const { ref, elem } = await getMediaFactory(media, true);
 
   const link = document.createElement("a");
   link.className = "link";
   link.ariaLabel = media.title;
-  link.href = href;
+  link.href = ref;
   link.appendChild(elem);
 
   return link;
