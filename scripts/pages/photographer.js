@@ -1,11 +1,11 @@
 import { PATH_PHOTOGRAPHERS } from "../utils/consts.js";
-import { getData } from "../utils/data.js";
+import { getPhotographer, getMedias } from "../utils/data.js";
 import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { showLightbox } from "../utils/lightbox.js";
 
-let photographer;
 const totalLikes = document.querySelector("#totalLikes");
 const price = document.querySelector("#price");
+const cards = document.querySelector(".photograph-media");
 
 async function displayAbout(photographer) {
   const section = document.querySelector(".photograph-header");
@@ -20,11 +20,10 @@ async function displayAbout(photographer) {
   document.querySelector("#photographer-name").innerHTML = photographer.name;
 }
 
-async function displayMedia(photographer) {
-  const cards = document.querySelector(".photograph-media");
+async function displayMedia(photographer, medias) {
   cards.innerHTML = "";
-  for (let i = 0; i < photographer.media.length; i++) {
-    const media = photographer.media[i];
+  for (let i = 0; i < medias.length; i++) {
+    const media = medias[i];
 
     const card = await mediaCardTemplate(media);
     card.dataset.key = i;
@@ -52,7 +51,7 @@ async function displayMedia(photographer) {
 
     card.querySelector(".link").addEventListener("click", (e) => {
       e.preventDefault();
-      showLightbox(photographer.media, i);
+      showLightbox(medias, i);
     });
 
     cards.appendChild(card);
@@ -64,23 +63,23 @@ async function displayResume(photographer) {
   price.innerText = photographer.price;
 }
 
-async function displayData(photographer) {
+async function displayData(photographer, medias) {
   await displayAbout(photographer);
-  await displayMedia(photographer);
+  await displayMedia(photographer, medias);
   await displayResume(photographer);
 }
 
-function sortMedia(column) {
+function sortMedia(medias, column) {
   switch (column) {
     case "likes":
-      photographer.media.sort((item1, item2) => {
+      medias.sort((item1, item2) => {
         return item1.likes - item2.likes;
       });
       break;
     case "date":
     case "title":
     default:
-      photographer.media.sort((item1, item2) => {
+      medias.sort((item1, item2) => {
         if (item1[column] > item2[column]) {
           return +1;
         } else if (item1[column] < item2[column]) {
@@ -91,89 +90,32 @@ function sortMedia(column) {
   }
 }
 
-// function nextLightbox() {
-//   updateLightbox(current + 1);
-// }
-
-// function previousLightbox() {
-//   updateLightbox(current - 1);
-// }
-
-// async function updateLightbox(index) {
-//   if (index < 0) {
-//     index = 0;
-//   } else if (index >= photographer.media.length) {
-//     index = photographer.media.length - 1;
-//   }
-//   if (current !== index) {
-//     const item = photographer.media[(current = index)];
-
-//     const { elem: media } = await getMediaFactory(item, false);
-
-//     const caption = document.createElement("figcaption");
-//     caption.tabIndex = 3;
-//     caption.className = "caption";
-//     caption.innerHTML = item.title;
-
-//     lbMedia.innerHTML = "";
-//     lbMedia.appendChild(media);
-//     lbMedia.appendChild(caption);
-
-//     lbPrevious.disabled = index <= 0;
-//     lbNext.disabled = index >= photographer.media.length - 1;
-//   }
-// }
-
 async function init() {
+  // Récupération des paramètres de l'URL
   const params = new URL(window.location).searchParams;
   const id = parseInt(params.get("id"));
 
-  const data = await getData();
-
-  photographer = data.photographers.find((item) => item.id === id);
-  photographer.media = new Array();
-  photographer.likes = 0;
-  for (const item of data.media) {
-    if (item.photographerId === id) {
-      photographer.media.push(item);
-      photographer.likes += item.likes ?? 0;
-    }
+  const photographer = await getPhotographer(id);
+  if (!photographer) {
+    document.querySelector(".photograph-header").innerHTML =
+      "<h2>Impossible de trouver des informations sur ce photographe !</h2>";
+    return false;
   }
+  const medias = await getMedias(id);
+  photographer.likes = 0;
+  medias.map((item) => {
+    photographer.likes += item.likes ?? 0;
+  });
 
   const sortSelect = document.querySelector("#sort");
 
   sortSelect.addEventListener("change", () => {
-    sortMedia(sortSelect.value);
-    displayMedia(photographer);
+    sortMedia(medias, sortSelect.value);
+    displayMedia(photographer, medias);
   });
-  sortMedia(sortSelect.value);
+  sortMedia(medias, sortSelect.value);
 
-  await displayData(photographer, photographer.media);
-
-  // lbPrevious.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   previousLightbox();
-  // });
-
-  // lbNext.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   nextLightbox();
-  // });
-
-  // document.addEventListener("keydown", (e) => {
-  //   switch (e.key) {
-  //     case "ArrowLeft":
-  //       if (lightbox.open) {
-  //         previousLightbox();
-  //       }
-  //       break;
-  //     case "ArrowRight":
-  //       if (lightbox.open) {
-  //         nextLightbox();
-  //       }
-  //       break;
-  //   }
-  // });
+  await displayData(photographer, medias);
 }
 
 init();
