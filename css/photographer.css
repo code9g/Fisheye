@@ -1,86 +1,3 @@
-#lightbox {
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  padding: 2rem;
-  color: var(--primary-color);
-}
-
-#lightbox::backdrop {
-  background-color: white;
-}
-
-#lightbox[open] {
-  display: flex;
-}
-
-#lightbox .content {
-  display: grid;
-  grid-template-columns: min-content 1fr min-content;
-  grid-template-rows: min-content 1fr min-content;
-  grid-template-areas:
-    "empty1 figure close"
-    "previous figure next"
-    "empty2 figure empty3";
-}
-
-#lightbox .lightbox-figure {
-  grid-area: figure;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: flex-start;
-
-  max-width: 100%;
-  max-height: 100%;
-  overflow: hidden;
-
-  font-size: 2.4rem;
-  color: var(--primary-color);
-}
-
-#lightbox .caption {
-  padding: 0.5em 0;
-}
-
-#lightbox .media {
-  border-radius: 0.5rem;
-  object-fit: contain;
-  max-width: 100%;
-  max-height: 80vh;
-}
-
-#lightbox .btn {
-  display: block;
-  align-self: center;
-  cursor: pointer;
-  font-size: 7.2rem;
-  border: none;
-  background: transparent;
-  width: 1em;
-  height: 1em;
-}
-
-#lightbox .btn:disabled {
-  cursor: unset;
-  color: #d3d3d3;
-}
-
-#lightbox .btn-close {
-  grid-area: close;
-}
-
-#lightbox .btn-previous {
-  grid-area: previous;
-}
-
-#lightbox .btn-next {
-  grid-area: next;
-}
-
 #contact {
   width: min(50%, 720px);
   box-shadow: -5px 10px 30px 0px rgba(0, 0, 0, 0.25);
@@ -115,19 +32,19 @@
   font-weight: normal;
 }
 
-#contact .btn-close {
+#contact .close {
   width: 7.2rem;
   height: 7.2rem;
 }
 
-#contact .btn-close,
-#contact .btn-close:active {
+#contact .close,
+#contact .close:active {
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
 
-#contact .btn-close img {
+#contact .close img {
   object-fit: cover;
   width: 100%;
   height: 100%;

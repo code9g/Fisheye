@@ -27,17 +27,17 @@ export async function getMediaFactory(media, thumbnail = false) {
     elem.className = "media picture";
   }
 
-  return { ref, elem };
+  return { src: ref, DOM: elem };
 }
 
 async function mediaElement(media) {
-  const { ref, elem } = await getMediaFactory(media, true);
+  const { src, DOM } = await getMediaFactory(media, true);
 
   const link = document.createElement("a");
   link.className = "link";
   link.ariaLabel = media.title;
-  link.href = ref;
-  link.appendChild(elem);
+  link.href = src;
+  link.appendChild(DOM);
 
   return link;
 }

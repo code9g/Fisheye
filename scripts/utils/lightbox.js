@@ -1,10 +1,15 @@
-import { getMediaFactory } from "../templates/mediaCard.js";
+const DEFAULT_TARGET_LIGHTBOX = "#lightbox";
+const DEFAULT_TARGET_MEDIA = ".figure";
+const DEFAULT_TARGET_PREVIOUS = ".previous";
+const DEFAULT_TARGET_NEXT = ".next";
 
-const lightbox = document.querySelector("#lightbox");
+let lightbox = null;
 
-const lbMedia = lightbox.querySelector(".lightbox-figure");
-const lbPrevious = lightbox.querySelector(".btn-previous");
-const lbNext = lightbox.querySelector(".btn-next");
+let callback = null;
+
+let lbMedia = null;
+let lbPrevious = null;
+let lbNext = null;
 
 let list = null;
 let current = -1;
@@ -45,43 +50,62 @@ async function updateLightbox(index) {
   if (current !== index) {
     const item = list[(current = index)];
 
-    const { elem: media } = await getMediaFactory(item, false);
+    const { caption, content } = await callback(item);
 
-    const caption = document.createElement("figcaption");
-    caption.tabIndex = 3;
-    caption.className = "caption";
-    caption.innerHTML = item.title;
+    const captionElement = document.createElement("figcaption");
+    captionElement.tabIndex = 3;
+    captionElement.className = "caption";
+    captionElement.innerHTML = caption;
 
     lbMedia.innerHTML = "";
-    lbMedia.appendChild(media);
-    lbMedia.appendChild(caption);
+
+    lbMedia.appendChild(content);
+    lbMedia.appendChild(captionElement);
 
     lbPrevious.disabled = index <= 0;
     lbNext.disabled = index >= list.length - 1;
   }
 }
 
-lbPrevious.addEventListener("click", (e) => {
-  e.preventDefault();
-  previousLightbox();
-});
+export async function initLightbox(
+  figureCallback = updateLightbox,
+  targetLightbox = DEFAULT_TARGET_LIGHTBOX,
+  targetMedia = DEFAULT_TARGET_MEDIA,
+  targetPrevious = DEFAULT_TARGET_PREVIOUS,
+  targetNext = DEFAULT_TARGET_NEXT
+) {
+  callback = figureCallback;
+  lightbox = document.querySelector(targetLightbox);
 
-lbNext.addEventListener("click", (e) => {
-  e.preventDefault();
-  nextLightbox();
-});
+  lbMedia = lightbox.querySelector(targetMedia);
+  lbPrevious = lightbox.querySelector(targetPrevious);
+  lbNext = lightbox.querySelector(targetNext);
 
-document.addEventListener("keydown", (e) => {
-  switch (e.key) {
-    case "ArrowLeft":
-      if (lightbox.open) {
-        previousLightbox();
-      }
-      break;
-    case "ArrowRight":
-      if (lightbox.open) {
-        nextLightbox();
-      }
-      break;
-  }
-});
+  list = null;
+  current = -1;
+
+  lbPrevious.addEventListener("click", (e) => {
+    e.preventDefault();
+    previousLightbox();
+  });
+
+  lbNext.addEventListener("click", (e) => {
+    e.preventDefault();
+    nextLightbox();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "ArrowLeft":
+        if (lightbox.open) {
+          previousLightbox();
+        }
+        break;
+      case "ArrowRight":
+        if (lightbox.open) {
+          nextLightbox();
+        }
+        break;
+    }
+  });
+}

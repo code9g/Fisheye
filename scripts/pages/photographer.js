@@ -1,53 +1,59 @@
 import { PATH_PHOTOGRAPHERS } from "../utils/consts.js";
-import { getPhotographer, getMedias } from "../utils/data.js";
-import { mediaCardTemplate } from "../templates/mediaCard.js";
-import { showLightbox } from "../utils/lightbox.js";
+import {
+  getPhotographer,
+  getMedias,
+  getMedia,
+  toggleLikesOnMedia,
+} from "../utils/data.js";
+import { getMediaFactory, mediaCardTemplate } from "../templates/mediaCard.js";
+import { initLightbox, showLightbox } from "../utils/lightbox.js";
 
+const sortSelect = document.querySelector("#sort");
 const totalLikes = document.querySelector("#totalLikes");
 const price = document.querySelector("#price");
 const cards = document.querySelector(".photograph-media");
 
 async function displayAbout(photographer) {
   const section = document.querySelector(".photograph-header");
-  section.querySelector(".name").innerText = photographer.name;
+  section.querySelector(".name").textContent = photographer.name;
   section.querySelector(
     ".location"
-  ).innerText = `${photographer.city}, ${photographer.country}`;
+  ).textContent = `${photographer.city}, ${photographer.country}`;
   section.querySelector(".tagline").innerText = photographer.tagline;
+
   const portrait = section.querySelector(".portrait");
   portrait.src = `${PATH_PHOTOGRAPHERS}/thumb/${photographer.portrait}`;
   portrait.alt = `Photo du photographe ${name}`;
-  document.querySelector("#photographer-name").innerHTML = photographer.name;
+  document.querySelector("#photographer-name").textContent = photographer.name;
+}
+
+async function updateMedia(media) {
+  const card = document.querySelector(`article.card[data-id="${media.id}"]`);
+  if (card) {
+    const heart = card.querySelector(".fa-heart");
+    if (media.liked) {
+      heart.classList.remove("fa-regular");
+      heart.classList.add("fa-solid");
+    } else {
+      heart.classList.remove("fa-solid");
+      heart.classList.add("fa-regular");
+    }
+    card.querySelector(".likes-info").textContent = media.likes;
+  }
+}
+
+async function updateResume(photographer) {
+  totalLikes.textContent = photographer.likes;
 }
 
 async function displayMedia(photographer, medias) {
   cards.innerHTML = "";
+
   for (let i = 0; i < medias.length; i++) {
     const media = medias[i];
 
     const card = await mediaCardTemplate(media);
     card.dataset.key = i;
-
-    card.querySelector(".btn-like").addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const heart = e.currentTarget.querySelector(".fa-heart");
-      if (media.liked) {
-        media.liked = false;
-        media.likes--;
-        photographer.likes--;
-        heart.classList.remove("fa-solid");
-        heart.classList.add("fa-regular");
-      } else {
-        media.liked = true;
-        media.likes++;
-        photographer.likes++;
-        heart.classList.remove("fa-regular");
-        heart.classList.add("fa-solid");
-      }
-      totalLikes.innerText = photographer.likes;
-      card.querySelector(".likes-info").innerText = media.likes;
-    });
 
     card.querySelector(".link").addEventListener("click", (e) => {
       e.preventDefault();
@@ -56,6 +62,22 @@ async function displayMedia(photographer, medias) {
 
     cards.appendChild(card);
   }
+
+  document.querySelectorAll("article.card").forEach((element) => {
+    element.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const card = e.currentTarget.closest(".card");
+      const mediaId = parseInt(card.dataset.id);
+      if (await toggleLikesOnMedia(mediaId)) {
+        const media = await getMedia(mediaId);
+        updateMedia(media);
+        const photographer = await getPhotographer(media.photographerId);
+        updateResume(photographer);
+      } else {
+        console.error("Impossible de basculer le like !");
+      }
+    });
+  });
 }
 
 async function displayResume(photographer) {
@@ -63,31 +85,9 @@ async function displayResume(photographer) {
   price.innerText = photographer.price;
 }
 
-async function displayData(photographer, medias) {
-  await displayAbout(photographer);
+async function updateMedias(photographer) {
+  const medias = await getMedias(photographer.id, sortSelect.value);
   await displayMedia(photographer, medias);
-  await displayResume(photographer);
-}
-
-function sortMedia(medias, column) {
-  switch (column) {
-    case "likes":
-      medias.sort((item1, item2) => {
-        return item1.likes - item2.likes;
-      });
-      break;
-    case "date":
-    case "title":
-    default:
-      medias.sort((item1, item2) => {
-        if (item1[column] > item2[column]) {
-          return +1;
-        } else if (item1[column] < item2[column]) {
-          return -1;
-        }
-        return 0;
-      });
-  }
 }
 
 async function init() {
@@ -101,21 +101,21 @@ async function init() {
       "<h2>Impossible de trouver des informations sur ce photographe !</h2>";
     return false;
   }
-  const medias = await getMedias(id);
-  photographer.likes = 0;
-  medias.map((item) => {
-    photographer.likes += item.likes ?? 0;
-  });
 
-  const sortSelect = document.querySelector("#sort");
+  await displayAbout(photographer);
+  await updateMedias(photographer);
+  await displayResume(photographer);
 
   sortSelect.addEventListener("change", () => {
-    sortMedia(medias, sortSelect.value);
-    displayMedia(photographer, medias);
+    updateMedias(photographer);
   });
-  sortMedia(medias, sortSelect.value);
 
-  await displayData(photographer, medias);
+  initLightbox(async (media) => {
+    return {
+      caption: media.title,
+      content: (await getMediaFactory(media, false)).DOM,
+    };
+  }, "#lightbox");
 }
 
 init();
