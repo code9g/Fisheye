@@ -2,19 +2,19 @@ import { PATH_ASSETS, PATH_MEDIA } from "../utils/consts.js";
 
 export async function getMediaFactory(media, thumbnail = false) {
   let elem;
-  let ref;
+  let src;
   if (media.image) {
     elem = document.createElement("img");
     elem.src = `${PATH_MEDIA}/${media.photographerId}${
       thumbnail ? "/thumb" : ""
     }/${media.image}`;
-    ref = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
+    src = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
     elem.alt = media.title;
     elem.className = "media picture";
   } else if (media.video) {
     elem = document.createElement("video");
     elem.src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
-    ref = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
+    src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
     if (!thumbnail) {
       elem.setAttribute("controls", "");
     }
@@ -23,23 +23,11 @@ export async function getMediaFactory(media, thumbnail = false) {
     elem = document.createElement("img");
     elem.src = `${PATH_ASSETS}/images/no-elem.jpg`;
     elem.alt = media.title;
-    ref = `${PATH_ASSETS}/images/no-elem.jpg`;
+    src = `${PATH_ASSETS}/images/no-elem.jpg`;
     elem.className = "media picture";
   }
 
-  return { src: ref, DOM: elem };
-}
-
-async function mediaElement(media) {
-  const { src, DOM } = await getMediaFactory(media, true);
-
-  const link = document.createElement("a");
-  link.className = "link";
-  link.ariaLabel = media.title;
-  link.href = src;
-  link.appendChild(DOM);
-
-  return link;
+  return { src, DOM: elem };
 }
 
 export async function mediaCardTemplate(media) {
@@ -47,7 +35,15 @@ export async function mediaCardTemplate(media) {
   const article = document.createElement("article");
   article.className = "card";
   article.dataset.id = media.id;
-  article.appendChild(await mediaElement(media));
+
+  const { src, DOM } = await getMediaFactory(media, true);
+  const link = document.createElement("a");
+  link.className = "link";
+  link.ariaLabel = media.title;
+  link.href = src;
+  link.appendChild(DOM);
+
+  article.appendChild(link);
 
   const div = document.createElement("div");
   div.className = "card-body";

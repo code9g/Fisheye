@@ -41,7 +41,7 @@ export function closeModal(target = null) {
   }
 }
 
-function init() {
+export function initModal() {
   const openEvent = new CustomEvent(OPEN_EVENT);
 
   const observer = new MutationObserver((records) => {
@@ -100,5 +100,3 @@ function init() {
     }
   });
 }
-
-init();

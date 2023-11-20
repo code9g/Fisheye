@@ -16,51 +16,31 @@ export async function getPhotographers() {
 export async function getPhotographer(id) {
   const result = (await getData()).photographers.find((item) => item.id === id);
   if (result) {
-    result.likes = 0;
-    (await getMedias(id)).map((item) => {
-      result.likes += item.likes ?? 0;
-    });
+    result.likes = (await getMedias(id)).reduce((accumulator, item) => {
+      return accumulator + (item.likes ?? 0);
+    }, 0);
   }
   return result;
 }
 
-export async function getMedias(
-  photographerId,
-  column = null,
-  direction = "ASC"
-) {
+export async function getMedias(photographerId, column = null) {
   const result = (await getData()).media.filter(
     (item) => item.photographerId === photographerId
   );
   switch (column) {
     case "likes":
-      if (direction === "ASC") {
-        result.sort((item1, item2) => item1[column] - item2[column]);
-      } else {
-        result.sort((item1, item2) => item2[column] - item1[column]);
-      }
+      result.sort((item1, item2) => item1[column] - item2[column]);
       break;
     case "date":
     case "title":
-      if (direction === "ASC") {
-        result.sort((item1, item2) => {
-          if (item1[column] > item2[column]) {
-            return +1;
-          } else if (item1[column] < item2[column]) {
-            return -1;
-          }
-          return 0;
-        });
-      } else {
-        result.sort((item1, item2) => {
-          if (item1[column] < item2[column]) {
-            return +1;
-          } else if (item1[column] > item2[column]) {
-            return -1;
-          }
-          return 0;
-        });
-      }
+      result.sort((item1, item2) => {
+        if (item1[column] > item2[column]) {
+          return +1;
+        } else if (item1[column] < item2[column]) {
+          return -1;
+        }
+        return 0;
+      });
       break;
   }
   return result;

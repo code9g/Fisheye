@@ -7,6 +7,7 @@ import {
 } from "../utils/data.js";
 import { getMediaFactory, mediaCardTemplate } from "../templates/mediaCard.js";
 import { initLightbox, showLightbox } from "../utils/lightbox.js";
+import { initModal } from "../utils/modal.js";
 
 const sortSelect = document.querySelector("#sort");
 const totalLikes = document.querySelector("#totalLikes");
@@ -109,6 +110,8 @@ async function init() {
   sortSelect.addEventListener("change", () => {
     updateMedias(photographer);
   });
+
+  initModal();
 
   initLightbox(async (media) => {
     return {
