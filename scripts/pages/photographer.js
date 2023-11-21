@@ -102,6 +102,19 @@ async function init() {
 
   document.querySelector("#photographer-name").textContent = photographer.name;
 
+  const contact = document.querySelector("#contact");
+  const form = contact.querySelector("form");
+  contact.addEventListener("open", () => {
+    form.reset();
+  });
+
+  form.addEventListener("submit", () => {
+    console.log("Prénom: ", form.firstname.value);
+    console.log("Nom: ", form.lastname.value);
+    console.log("Mél: ", form.email.value);
+    console.log("Message: ", form.message.value);
+  });
+
   sortSelect.addEventListener("change", () => {
     updateMedias(photographer);
   });
