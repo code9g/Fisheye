@@ -2,6 +2,7 @@ import { URL_DATA } from "./consts.js";
 
 let data = null;
 
+// Récupère et met en cache les données
 export async function getData(forceUpdate = false) {
   if (data === null || forceUpdate) {
     data = await fetch(URL_DATA).then((res) => res.json());
@@ -9,10 +10,12 @@ export async function getData(forceUpdate = false) {
   return data;
 }
 
+// Récupère la liste des photographes
 export async function getPhotographers() {
   return (await getData()).photographers;
 }
 
+// Récupère les détails d'un photographe en incluant les likes
 export async function getPhotographer(id) {
   const result = (await getData()).photographers.find((item) => item.id === id);
   if (result) {
@@ -23,6 +26,7 @@ export async function getPhotographer(id) {
   return result;
 }
 
+// Récupère la liste des médias d'un photographe en triant si nécessaire
 export async function getMedias(photographerId, column = null) {
   const result = (await getData()).media.filter(
     (item) => item.photographerId === photographerId
@@ -46,10 +50,13 @@ export async function getMedias(photographerId, column = null) {
   return result;
 }
 
+// Récupère les informations sur un média
 export async function getMedia(id) {
   return (await getData()).media.find((item) => item.id === id);
 }
 
+// Permet de faire basculer le "like" sur un média
+// Note: Ici, cela fonctionne car on met en "cache" les données
 export async function toggleLikesOnMedia(id) {
   const media = await getMedia(id);
   if (!media) {
