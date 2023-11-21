@@ -67,7 +67,7 @@ async function updateLightbox(index) {
   }
 }
 
-export async function initLightbox(
+export function initLightbox(
   figureCallback = updateLightbox,
   targetLightbox = DEFAULT_TARGET_LIGHTBOX,
   targetMedia = DEFAULT_TARGET_MEDIA,
