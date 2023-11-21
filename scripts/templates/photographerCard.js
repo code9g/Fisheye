@@ -1,4 +1,4 @@
-import { PATH_PHOTOGRAPHERS } from "../utils/consts.js";
+import { photographerPortraitTemplate } from "./photographerPortrait.js";
 
 export function photographerCardTemplate({
   id,
@@ -16,10 +16,7 @@ export function photographerCardTemplate({
   link.className = "link";
   link.href = `photographer.html?id=${id}`;
 
-  const img = document.createElement("img");
-  img.className = "portrait";
-  img.src = `${PATH_PHOTOGRAPHERS}/thumb/${portrait}`;
-  img.alt = `Portrait du photographe ${name}`;
+  const img = photographerPortraitTemplate({ name, portrait });
 
   const h2 = document.createElement("h2");
   h2.className = "name";

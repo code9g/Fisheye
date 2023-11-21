@@ -1,47 +1,17 @@
-import { PATH_ASSETS, PATH_MEDIA } from "../utils/consts.js";
+import { mediaFactoryTemplate } from "./mediaFactoryTemplate.js";
 
-export async function getMediaFactory(media, thumbnail = false) {
-  let elem;
-  let src;
-  if (media.image) {
-    elem = document.createElement("img");
-    elem.src = `${PATH_MEDIA}/${media.photographerId}${
-      thumbnail ? "/thumb" : ""
-    }/${media.image}`;
-    src = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
-    elem.alt = media.title;
-    elem.className = "media picture";
-  } else if (media.video) {
-    elem = document.createElement("video");
-    elem.src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
-    src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
-    if (!thumbnail) {
-      elem.setAttribute("controls", "");
-    }
-    elem.className = "media video";
-  } else {
-    elem = document.createElement("img");
-    elem.src = `${PATH_ASSETS}/images/no-elem.jpg`;
-    elem.alt = media.title;
-    src = `${PATH_ASSETS}/images/no-elem.jpg`;
-    elem.className = "media picture";
-  }
-
-  return { src, DOM: elem };
-}
-
-export async function mediaCardTemplate(media) {
+export function mediaCardTemplate(media) {
   const { title, likes } = media;
   const article = document.createElement("article");
   article.className = "card";
   article.dataset.id = media.id;
 
-  const { src, DOM } = await getMediaFactory(media, true);
+  const { src, content } = mediaFactoryTemplate(media, true);
   const link = document.createElement("a");
   link.className = "link";
   link.ariaLabel = media.title;
   link.href = src;
-  link.appendChild(DOM);
+  link.appendChild(content);
 
   article.appendChild(link);
 

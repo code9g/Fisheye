@@ -1,31 +1,24 @@
-import { PATH_PHOTOGRAPHERS } from "../utils/consts.js";
 import {
   getPhotographer,
   getMedias,
   getMedia,
   toggleLikesOnMedia,
 } from "../utils/data.js";
-import { getMediaFactory, mediaCardTemplate } from "../templates/mediaCard.js";
-import { initLightbox, showLightbox } from "../utils/lightbox.js";
+import { photographerHeaderTemplate } from "../templates/photographerHeader.js";
+import { mediaFactoryTemplate } from "../templates/mediaFactoryTemplate.js";
+import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { initModal } from "../utils/modal.js";
+import { initLightbox, showLightbox } from "../utils/lightbox.js";
 
 const sortSelect = document.querySelector("#sort");
 const totalLikes = document.querySelector("#totalLikes");
 const price = document.querySelector("#price");
 const cards = document.querySelector(".photograph-media");
 
-async function displayAbout(photographer) {
-  const section = document.querySelector(".photograph-header");
-  section.querySelector(".name").textContent = photographer.name;
-  section.querySelector(
-    ".location"
-  ).textContent = `${photographer.city}, ${photographer.country}`;
-  section.querySelector(".tagline").innerText = photographer.tagline;
-
-  const portrait = section.querySelector(".portrait");
-  portrait.src = `${PATH_PHOTOGRAPHERS}/thumb/${photographer.portrait}`;
-  portrait.alt = `Photo du photographe ${name}`;
-  document.querySelector("#photographer-name").textContent = photographer.name;
+async function displayHeader(photographer) {
+  document
+    .querySelector(".photograph-header")
+    .replaceWith(photographerHeaderTemplate(photographer));
 }
 
 async function updateMedia(media) {
@@ -103,9 +96,11 @@ async function init() {
     return false;
   }
 
-  await displayAbout(photographer);
+  await displayHeader(photographer);
   await updateMedias(photographer);
   await displayResume(photographer);
+
+  document.querySelector("#photographer-name").textContent = photographer.name;
 
   sortSelect.addEventListener("change", () => {
     updateMedias(photographer);
@@ -116,7 +111,7 @@ async function init() {
   initLightbox(async (media) => {
     return {
       caption: media.title,
-      content: (await getMediaFactory(media, false)).DOM,
+      content: mediaFactoryTemplate(media, false).content,
     };
   }, "#lightbox");
 }
