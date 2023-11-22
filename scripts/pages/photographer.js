@@ -10,17 +10,23 @@ import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { initModal } from "../utils/modal.js";
 import { initLightbox, showLightbox } from "../utils/lightbox.js";
 
+// Eléments du DOM qui sont régulièrement utilisés
 const sortSelect = document.querySelector("#sort");
 const totalLikes = document.querySelector("#totalLikes");
 const price = document.querySelector("#price");
 const cards = document.querySelector(".photograph-media");
 
+// Permet d'afficher les informations sur un photographe
+//(incluant le bouton contact)
 async function displayHeader(photographer) {
+  // On cible l'élément ayant la classe .photograph-header pour le remplacer
   document
     .querySelector(".photograph-header")
     .replaceWith(photographerHeaderTemplate(photographer));
 }
 
+// Permet d'actualiser les informations d'un média en se basant sur son id
+// (ici c'est l'état du "like" et le nombre de likes)
 async function updateMedia(media) {
   const card = document.querySelector(`article.card[data-id="${media.id}"]`);
   if (card) {
@@ -36,42 +42,46 @@ async function updateMedia(media) {
   }
 }
 
+// Permet d'actualiser le nombre de likes total d'un photographe
 async function updateResume(photographer) {
   totalLikes.textContent = photographer.likes;
 }
 
-async function displayMedia(photographer, medias) {
+async function toggleLike(e) {
+  e.preventDefault();
+  const card = e.currentTarget.closest(".card");
+  const mediaId = parseInt(card.dataset.id);
+  if (await toggleLikesOnMedia(mediaId)) {
+    const media = await getMedia(mediaId);
+    updateMedia(media);
+    const photographer = await getPhotographer(media.photographerId);
+    updateResume(photographer);
+  } else {
+    console.error("Impossible de basculer le like !");
+  }
+}
+
+// Affiche la liste des médias et ajoute le ou les gestionnaires d'événement(s) adéquat(s)
+async function displayMedias(photographer, medias) {
+  function launchLightbox(e) {
+    e.preventDefault();
+    const key = e.currentTarget.closest(".card").dataset.key;
+    showLightbox(medias, key);
+  }
+
   cards.innerHTML = "";
 
   for (let i = 0; i < medias.length; i++) {
     const media = medias[i];
 
-    const card = await mediaCardTemplate(media);
+    const card = mediaCardTemplate(media);
     card.dataset.key = i;
 
-    card.querySelector(".link").addEventListener("click", (e) => {
-      e.preventDefault();
-      showLightbox(medias, i);
-    });
+    card.querySelector(".link").addEventListener("click", launchLightbox);
+    card.querySelector(".btn-like").addEventListener("click", toggleLike);
 
     cards.appendChild(card);
   }
-
-  document.querySelectorAll("article.card").forEach((element) => {
-    element.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const card = e.currentTarget.closest(".card");
-      const mediaId = parseInt(card.dataset.id);
-      if (await toggleLikesOnMedia(mediaId)) {
-        const media = await getMedia(mediaId);
-        updateMedia(media);
-        const photographer = await getPhotographer(media.photographerId);
-        updateResume(photographer);
-      } else {
-        console.error("Impossible de basculer le like !");
-      }
-    });
-  });
 }
 
 async function displayResume(photographer) {
@@ -81,7 +91,7 @@ async function displayResume(photographer) {
 
 async function updateMedias(photographer) {
   const medias = await getMedias(photographer.id, sortSelect.value);
-  await displayMedia(photographer, medias);
+  await displayMedias(photographer, medias);
 }
 
 async function init() {

@@ -10,8 +10,9 @@ async function displayData(photographers) {
 }
 
 async function init() {
-  // Récupère les datas des photographes
+  // Récupération de la liste des photographes
   const photographers = await getPhotographers();
+  // Affichage de la liste
   displayData(photographers);
 }
 
