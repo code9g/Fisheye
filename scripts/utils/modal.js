@@ -1,6 +1,7 @@
 const OPEN_EVENT = "open";
 const CLOSE_EVENT = "close";
 
+// Permet d'afficher la boîte de dialogue ciblé par target
 export function showModal(target) {
   if (target instanceof HTMLElement) {
     if (target.tagName === "DIALOG") {
@@ -20,6 +21,7 @@ export function showModal(target) {
   }
 }
 
+// Permet de fermer la b ou les boîtes de dialogue (via target ou null)
 export function closeModal(target = null) {
   if (target === null) {
     document.querySelectorAll("dialog[open]").forEach((dialog) => {
@@ -41,9 +43,11 @@ export function closeModal(target = null) {
   }
 }
 
+// Initialise toutes les boîtes dialogues dans le DOM
 export function initModal() {
+  // Evénement personnalisé
   const openEvent = new CustomEvent(OPEN_EVENT);
-
+  // Gestion du changement de l'attribut "open" de la boîte de dialogue
   const observer = new MutationObserver((records) => {
     for (const { target } of records) {
       if (target.hasAttribute("open")) {
@@ -51,22 +55,25 @@ export function initModal() {
       }
     }
   });
-
+  // Option de l'osbervateur
   const options = {
     attributeFilter: ["open"],
     attributes: true,
   };
-
+  // Liste des "aria" qui ne sont pas cachés avec aria-hidden à false
   const allAriaHiddenFalse = document.querySelectorAll(
     "body > [aria-hidden=false]:not(dialog)"
   );
 
+  // Permet de faire basculer les attributs aria-hidden précédement listé
   function setAriaHiddenList(value) {
     for (const element of allAriaHiddenFalse) {
       element.ariaHidden = value;
     }
   }
 
+  // Pour chaque boîte de dialogue (identifié par l'élément DIALOG)
+  // On ajoute un observateur et des événements
   document.querySelectorAll("dialog").forEach((dialog) => {
     observer.observe(dialog, options);
     dialog.addEventListener(OPEN_EVENT, () => {
@@ -79,6 +86,7 @@ export function initModal() {
     });
   });
 
+  // Mise en place des événements pour lancer les boîtes de dialogue
   document
     .querySelectorAll("[data-toggle=dialog][data-target]")
     .forEach((element) => {
@@ -91,6 +99,7 @@ export function initModal() {
       }
     });
 
+  // Mise en place des événements pour fermer les boîtes de dialogue
   document.querySelectorAll("[data-dismiss=dialog]").forEach((element) => {
     const target = element.closest("dialog");
     if (target) {

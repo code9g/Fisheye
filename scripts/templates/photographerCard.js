@@ -1,5 +1,7 @@
 import { photographerPortraitTemplate } from "./photographerPortrait.js";
 
+// Fournit un article contenant les informations d'un photographe
+// Portrait, nom, ville, pays, prix
 export function photographerCardTemplate({
   id,
   name,

@@ -14,6 +14,7 @@ let lbNext = null;
 let list = null;
 let current = -1;
 
+// Affiche la boîte de dialogue de la lightbox
 export function showLightbox(medias, index) {
   list = medias;
   current = -1;
@@ -25,22 +26,26 @@ export function showLightbox(medias, index) {
   return lightbox.showModal();
 }
 
+// Permet de fermer la boîte de dialogue de la lightbox
 export function closeLightbox() {
   lightbox.close();
 }
 
+// Permet de passer au média précédent de la lightbox
 export function previousLightbox() {
   if (current > 0) {
     updateLightbox(current - 1);
   }
 }
 
+// Permet de passer au média suivant de la lightbox
 export function nextLightbox() {
   if (current < list.length - 1) {
     updateLightbox(current + 1);
   }
 }
 
+// Met à jour l'affichage de la lightbox
 async function updateLightbox(index) {
   if (index < 0) {
     index = 0;
@@ -67,6 +72,8 @@ async function updateLightbox(index) {
   }
 }
 
+// Initialise les variables de la lightbox, ainsi que le gestionnaire
+// d'événement (précédent, suivant, navigation)
 export function initLightbox(
   figureCallback = updateLightbox,
   targetLightbox = DEFAULT_TARGET_LIGHTBOX,

@@ -47,6 +47,7 @@ async function updateResume(photographer) {
   totalLikes.textContent = photographer.likes;
 }
 
+// Gestion du click sur un like
 async function toggleLike(e) {
   e.preventDefault();
   const card = e.currentTarget.closest(".card");
@@ -63,6 +64,8 @@ async function toggleLike(e) {
 
 // Affiche la liste des médias et ajoute le ou les gestionnaires d'événement(s) adéquat(s)
 async function displayMedias(photographer, medias) {
+  // Gestionnaire d'événement pour lancer la modale
+  // (on utilise la closure)
   function launchLightbox(e) {
     e.preventDefault();
     const key = e.currentTarget.closest(".card").dataset.key;
@@ -84,16 +87,19 @@ async function displayMedias(photographer, medias) {
   }
 }
 
+// Affichage des likes et du prix (en base de page) d'un photographe
 async function displayResume(photographer) {
   totalLikes.innerText = photographer.likes;
   price.innerText = photographer.price;
 }
 
+// Mise à jour des informations sur les médias d'un photographe
 async function updateMedias(photographer) {
   const medias = await getMedias(photographer.id, sortSelect.value);
   await displayMedias(photographer, medias);
 }
 
+// Initialisation
 async function init() {
   // Récupération des paramètres de l'URL
   const params = new URL(window.location).searchParams;

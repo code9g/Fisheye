@@ -1,5 +1,7 @@
 import { mediaFactoryTemplate } from "./mediaFactoryTemplate.js";
 
+// Retourne un article contant les informations sur un média
+// (img ou video, titre, likes)
 export function mediaCardTemplate(media) {
   const { title, likes } = media;
   const article = document.createElement("article");
