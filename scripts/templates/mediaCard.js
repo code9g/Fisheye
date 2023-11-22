@@ -1,4 +1,4 @@
-import { mediaFactoryTemplate } from "./mediaFactoryTemplate.js";
+import { mediaFactoryTemplate } from "./mediaFactory.js";
 
 // Retourne un article contant les informations sur un média
 // (img ou video, titre, likes)

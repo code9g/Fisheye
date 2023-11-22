@@ -5,7 +5,7 @@ import {
   toggleLikesOnMedia,
 } from "../utils/data.js";
 import { photographerHeaderTemplate } from "../templates/photographerHeader.js";
-import { mediaFactoryTemplate } from "../templates/mediaFactoryTemplate.js";
+import { mediaFactoryTemplate } from "../templates/mediaFactory.js";
 import { mediaCardTemplate } from "../templates/mediaCard.js";
 import { initModal } from "../utils/modal.js";
 import { initLightbox, showLightbox } from "../utils/lightbox.js";
