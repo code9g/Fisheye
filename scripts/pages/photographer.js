@@ -125,6 +125,8 @@ async function init() {
   });
 
   form.addEventListener("submit", () => {
+    console.log("Id du photograph: ", photographer.id);
+    console.log("Nom du photographe: ", photographer.name);
     console.log("Prénom: ", form.firstname.value);
     console.log("Nom: ", form.lastname.value);
     console.log("Mél: ", form.email.value);
