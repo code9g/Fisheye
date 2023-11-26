@@ -79,12 +79,18 @@
   <dialog id="lightbox" aria-hidden="true" aria-label="Image closeup view">
     <div tabindex="1" class="content">
       <figure tabindex="2" class="figure"></figure>
-      <button tabindex="4" class="previous" type="button" aria-label="Previous image"><i class="fa-solid fa-angle-left"
-          aria-hidden="true"></i></button>
-      <button tabindex="5" class="next" type="button" aria-label="Next image"><i class="fa-solid fa-angle-right"
-          aria-hidden="true"></i></button>
-      <button tabindex="6" class="close" data-dismiss="dialog" aria-label="Close dialog"><i class="fa-solid fa-xmark"
-          aria-hidden="true"></i></button>
+      <button tabindex="4" class="previous" type="button" aria-labelledby="previous-lightbox">
+        <i class="fa-solid fa-angle-left" aria-hidden="true"></i>
+        <p id="previous-lightbox" class="sr-only">Précédent</p>
+      </button>
+      <button tabindex="5" class="next" type="button" aria-labelledby="next-lightbox">
+        <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
+        <p id="next-lightbox" class="sr-only">Suivant</p>
+      </button>
+      <button tabindex="6" class="close" data-dismiss="dialog" aria-labelledby="close-lightbox">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        <p id="close-lightbox" class="sr-only">Fermer la modale</p>
+      </button>
     </div>
   </dialog>
   <script src="https://kit.fontawesome.com/4eec2abd39.js" crossorigin="anonymous"></script>

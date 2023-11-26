@@ -120,14 +120,19 @@ async function init() {
 
   const contact = document.querySelector("#contact");
   const form = contact.querySelector("form");
+  const elements = form.querySelectorAll("input[required], textarea[required]");
 
-  contact.addEventListener("close", () => {
+  contact.addEventListener("open", () => {
     form.reset();
-    form
-      .querySelectorAll("input[required], textarea[required]")
-      .forEach((element) => {
-        element.ariaInvalid = false;
-      });
+    elements.forEach((element) => {
+      element.ariaInvalid = !element.validity.valid;
+    });
+  });
+
+  elements.forEach((element) => {
+    element.addEventListener("input", (e) => {
+      e.currentTarget.ariaInvalid = !e.currentTarget.validity.valid;
+    });
   });
 
   form.addEventListener("submit", (e) => {
@@ -143,11 +148,6 @@ async function init() {
       console.log("Message: ", form.message.value);
     } else {
       e.preventDefault();
-      form
-        .querySelectorAll("input[required], textarea[required]")
-        .forEach((element) => {
-          element.ariaInvalid = !element.validity.valid;
-        });
       form.reportValidity();
     }
   });
