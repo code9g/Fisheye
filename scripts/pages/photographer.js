@@ -120,20 +120,36 @@ async function init() {
 
   const contact = document.querySelector("#contact");
   const form = contact.querySelector("form");
-  contact.addEventListener("open", () => {
+
+  contact.addEventListener("close", () => {
     form.reset();
+    form
+      .querySelectorAll("input[required], textarea[required]")
+      .forEach((element) => {
+        element.ariaInvalid = false;
+      });
   });
 
-  form.addEventListener("submit", () => {
-    console.log(
-      "Photographe: ",
-      photographer.name,
-      "(" + photographer.id + ")"
-    );
-    console.log("Prénom: ", form.firstname.value);
-    console.log("Nom: ", form.lastname.value);
-    console.log("Mél: ", form.email.value);
-    console.log("Message: ", form.message.value);
+  form.addEventListener("submit", (e) => {
+    if (form.checkValidity()) {
+      console.log(
+        "Photographe: ",
+        photographer.name,
+        "(" + photographer.id + ")"
+      );
+      console.log("Prénom: ", form.firstname.value);
+      console.log("Nom: ", form.lastname.value);
+      console.log("Mél: ", form.email.value);
+      console.log("Message: ", form.message.value);
+    } else {
+      e.preventDefault();
+      form
+        .querySelectorAll("input[required], textarea[required]")
+        .forEach((element) => {
+          element.ariaInvalid = !element.validity.valid;
+        });
+      form.reportValidity();
+    }
   });
 
   sortSelect.addEventListener("change", () => {

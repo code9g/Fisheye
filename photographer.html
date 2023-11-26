@@ -37,13 +37,13 @@
     </aside>
   </main>
 
-  <dialog id="contact" aria-hidden="true">
-    <form method="dialog" class="content">
+  <dialog id="contact" aria-hidden="true" aria-describedby="contact-title">
+    <form method="dialog" class="content" novalidate>
       <header class="modal-header">
-        <h2 tabindex="2">
+        <h2 id="contact-title" tabindex="2">
           Contactez-moi
           <br>
-          <span id="photographer-name">Test</span>
+          <span id="photographer-name"></span>
         </h2>
         <button tabindex="12" class="close" type="button" aria-label="Close dialog" data-dismiss="dialog"><img
             src="assets/icons/close.svg" alt="Fermer"></button>
@@ -51,19 +51,23 @@
       <div class="modal-body">
         <div class="input-group">
           <label tabindex="3" class="input-label" for="firstname">Prénom</label>
-          <input tabindex="4" class="input-control" type="text" id="firstname" name="firstname" minlength="2" required>
+          <input tabindex="4" class="input-control" type="text" id="firstname" placeholder="Votre prénom"
+            name="firstname" minlength="2" required aria-required="true">
         </div>
         <div class="input-group">
           <label tabindex="5" class="input-label" for="lastname">Nom</label>
-          <input tabindex="6" class="input-control" name="lastname" id="lastname" type="text" minlength="2" required>
+          <input tabindex="6" class="input-control" name="lastname" id="lastname" placeholder="Votre nom" type="text"
+            minlength="2" required aria-required="true">
         </div>
         <div class="input-group">
           <label tabindex="7" class="input-label" for="email">Email</label>
-          <input tabindex="8" class="input-control" id="email" name="email" type="email" required>
+          <input tabindex="8" class="input-control" id="email" name="email" placeholder="Votre adresse mél" type="email"
+            required aria-required="true">
         </div>
         <div class="input-group">
           <label tabindex="9" class="input-label" for="message">Votre message</label>
-          <textarea tabindex="10" class="input-text" id="message" name="message" rows="4" required></textarea>
+          <textarea tabindex="10" class="input-text" id="message" placeholder="Votre message" name="message" rows="4"
+            required aria-required="true"></textarea>
         </div>
       </div>
       <footer class="modal-footer">
