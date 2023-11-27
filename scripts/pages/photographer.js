@@ -95,7 +95,7 @@ async function displayResume(photographer) {
 // Mise à jour des informations sur les médias d'un photographe
 async function updateMedias(photographer) {
   const medias = await getMedias(photographer.id, sortSelect.value);
-  await displayMedias(photographer, medias);
+  await displayMedias(medias);
 }
 
 // Initialisation
