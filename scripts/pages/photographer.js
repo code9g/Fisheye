@@ -63,7 +63,7 @@ async function toggleLike(e) {
 }
 
 // Affiche la liste des médias et ajoute le ou les gestionnaires d'événement(s) adéquat(s)
-async function displayMedias(photographer, medias) {
+async function displayMedias(medias) {
   // Gestionnaire d'événement pour lancer la modale
   // (on utilise la closure)
   function launchLightbox(e) {
@@ -73,7 +73,6 @@ async function displayMedias(photographer, medias) {
   }
 
   cards.innerHTML = "";
-
   for (let i = 0; i < medias.length; i++) {
     const media = medias[i];
 
@@ -129,6 +128,7 @@ async function init() {
     });
   });
 
+  // Initialisation des attributs aria-invalid
   elements.forEach((element) => {
     element.addEventListener("input", (e) => {
       e.currentTarget.ariaInvalid = !e.currentTarget.validity.valid;
@@ -152,6 +152,7 @@ async function init() {
     }
   });
 
+  // Gestion du changement du select
   sortSelect.addEventListener("change", () => {
     updateMedias(photographer);
   });
