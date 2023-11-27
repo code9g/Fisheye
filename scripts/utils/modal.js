@@ -2,7 +2,7 @@ const OPEN_EVENT = "open";
 const CLOSE_EVENT = "close";
 
 // Permet d'afficher la boîte de dialogue ciblé par target
-export function showModal(target) {
+export const showModal = (target) => {
   if (target instanceof HTMLElement) {
     if (target.tagName === "DIALOG") {
       target.showModal();
@@ -19,10 +19,10 @@ export function showModal(target) {
   } else {
     console.error("target doit être de type HTMLElement ou un sélecteur CSS !");
   }
-}
+};
 
 // Permet de fermer la b ou les boîtes de dialogue (via target ou null)
-export function closeModal(target = null) {
+export const closeModal = (target = null) => {
   if (target === null) {
     document.querySelectorAll("dialog[open]").forEach((dialog) => {
       dialog.close();
@@ -41,10 +41,10 @@ export function closeModal(target = null) {
       console.error("target n'est pas un sélecteur CSS valide !");
     }
   }
-}
+};
 
 // Initialise toutes les boîtes dialogues dans le DOM
-export function initModal() {
+export const initModal = () => {
   // Evénement personnalisé
   const openEvent = new CustomEvent(OPEN_EVENT);
   // Gestion du changement de l'attribut "open" de la boîte de dialogue
@@ -66,11 +66,11 @@ export function initModal() {
   );
 
   // Permet de faire basculer les attributs aria-hidden précédement listé
-  function setAriaHiddenList(value) {
+  const setAriaHiddenList = (value) => {
     for (const element of allAriaHiddenFalse) {
       element.ariaHidden = value;
     }
-  }
+  };
 
   // Pour chaque boîte de dialogue (identifié par l'élément DIALOG)
   // On ajoute un observateur et des événements
@@ -108,4 +108,4 @@ export function initModal() {
       });
     }
   });
-}
+};

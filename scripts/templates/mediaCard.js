@@ -2,7 +2,7 @@ import { mediaFactoryTemplate } from "./mediaFactory.js";
 
 // Retourne un article contant les informations sur un média
 // (img ou video, titre, likes)
-export function mediaCardTemplate(media) {
+export const mediaCardTemplate = (media) => {
   const { title, likes } = media;
   const article = document.createElement("article");
   article.className = "card";
@@ -48,4 +48,4 @@ export function mediaCardTemplate(media) {
   article.appendChild(div);
 
   return article;
-}
+};

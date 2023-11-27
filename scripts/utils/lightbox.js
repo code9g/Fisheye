@@ -15,7 +15,7 @@ let list = null;
 let current = -1;
 
 // Affiche la boîte de dialogue de la lightbox
-export function showLightbox(medias, index) {
+export const showLightbox = (medias, index) => {
   list = medias;
   current = -1;
   if (index < 0 || index >= medias.length) {
@@ -24,29 +24,29 @@ export function showLightbox(medias, index) {
   }
   updateLightbox(index);
   return lightbox.showModal();
-}
+};
 
 // Permet de fermer la boîte de dialogue de la lightbox
-export function closeLightbox() {
+export const closeLightbox = () => {
   lightbox.close();
-}
+};
 
 // Permet de passer au média précédent de la lightbox
-export function previousLightbox() {
+export const previousLightbox = () => {
   if (current > 0) {
     updateLightbox(current - 1);
   }
-}
+};
 
 // Permet de passer au média suivant de la lightbox
-export function nextLightbox() {
+export const nextLightbox = () => {
   if (current < list.length - 1) {
     updateLightbox(current + 1);
   }
-}
+};
 
 // Met à jour l'affichage de la lightbox
-async function updateLightbox(index) {
+const updateLightbox = async (index) => {
   if (index < 0) {
     index = 0;
   } else if (index >= list.length) {
@@ -70,17 +70,17 @@ async function updateLightbox(index) {
     lbPrevious.disabled = index <= 0;
     lbNext.disabled = index >= list.length - 1;
   }
-}
+};
 
 // Initialise les variables de la lightbox, ainsi que le gestionnaire
 // d'événement (précédent, suivant, navigation)
-export function initLightbox(
+export const initLightbox = (
   figureCallback = updateLightbox,
   targetLightbox = DEFAULT_TARGET_LIGHTBOX,
   targetMedia = DEFAULT_TARGET_MEDIA,
   targetPrevious = DEFAULT_TARGET_PREVIOUS,
   targetNext = DEFAULT_TARGET_NEXT
-) {
+) => {
   callback = figureCallback;
   lightbox = document.querySelector(targetLightbox);
 
@@ -115,4 +115,4 @@ export function initLightbox(
         break;
     }
   });
-}
+};

@@ -18,16 +18,16 @@ const cards = document.querySelector(".photograph-media");
 
 // Permet d'afficher les informations sur un photographe
 //(incluant le bouton contact)
-async function displayHeader(photographer) {
+const displayHeader = async (photographer) => {
   // On cible l'élément ayant la classe .photograph-header pour le remplacer
   document
     .querySelector(".photograph-header")
     .replaceWith(photographerHeaderTemplate(photographer));
-}
+};
 
 // Permet d'actualiser les informations d'un média en se basant sur son id
 // (ici c'est l'état du "like" et le nombre de likes)
-async function updateMedia(media) {
+const updateMedia = async (media) => {
   const card = document.querySelector(`article.card[data-id="${media.id}"]`);
   if (card) {
     const heart = card.querySelector(".fa-heart");
@@ -40,15 +40,15 @@ async function updateMedia(media) {
     }
     card.querySelector(".likes-info").textContent = media.likes;
   }
-}
+};
 
 // Permet d'actualiser le nombre de likes total d'un photographe
-async function updateResume(photographer) {
+const updateResume = (photographer) => {
   totalLikes.textContent = photographer.likes;
-}
+};
 
 // Gestion du click sur un like
-async function toggleLike(e) {
+const toggleLike = async (e) => {
   e.preventDefault();
   const card = e.currentTarget.closest(".card");
   const mediaId = parseInt(card.dataset.id);
@@ -60,17 +60,17 @@ async function toggleLike(e) {
   } else {
     console.error("Impossible de basculer le like !");
   }
-}
+};
 
 // Affiche la liste des médias et ajoute le ou les gestionnaires d'événement(s) adéquat(s)
-async function displayMedias(medias) {
+const displayMedias = (medias) => {
   // Gestionnaire d'événement pour lancer la modale
   // (on utilise la closure)
-  function launchLightbox(e) {
+  const launchLightbox = (e) => {
     e.preventDefault();
     const key = e.currentTarget.closest(".card").dataset.key;
     showLightbox(medias, key);
-  }
+  };
 
   cards.innerHTML = "";
   for (let i = 0; i < medias.length; i++) {
@@ -84,22 +84,22 @@ async function displayMedias(medias) {
 
     cards.appendChild(card);
   }
-}
+};
 
 // Affichage des likes et du prix (en base de page) d'un photographe
-async function displayResume(photographer) {
+const displayResume = (photographer) => {
   totalLikes.innerText = photographer.likes;
   price.innerText = photographer.price;
-}
+};
 
 // Mise à jour des informations sur les médias d'un photographe
-async function updateMedias(photographer) {
+const updateMedias = async (photographer) => {
   const medias = await getMedias(photographer.id, sortSelect.value);
-  await displayMedias(medias);
-}
+  displayMedias(medias);
+};
 
 // Initialisation
-async function init() {
+const init = async () => {
   // Récupération des paramètres de l'URL
   const params = new URL(window.location).searchParams;
   const id = parseInt(params.get("id"));
@@ -113,7 +113,7 @@ async function init() {
 
   await displayHeader(photographer);
   await updateMedias(photographer);
-  await displayResume(photographer);
+  displayResume(photographer);
 
   document.querySelector("#photographer-name").textContent = photographer.name;
 
@@ -165,6 +165,6 @@ async function init() {
       content: mediaFactoryTemplate(media, false).content,
     };
   }, "#lightbox");
-}
+};
 
 init();

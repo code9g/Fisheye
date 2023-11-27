@@ -2,7 +2,7 @@ import { photographerPortraitTemplate } from "./photographerPortrait.js";
 
 // Retourne une section contenant les informations d'un photographe
 // (Nom, ville, pays, tagline, bouton "contact" et portrait )
-export function photographerHeaderTemplate(photographer) {
+export const photographerHeaderTemplate = (photographer) => {
   const about = document.createElement("div");
   about.className = "about";
 
@@ -37,4 +37,4 @@ export function photographerHeaderTemplate(photographer) {
   header.appendChild(button);
   header.appendChild(portrait);
   return header;
-}
+};

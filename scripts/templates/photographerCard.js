@@ -2,7 +2,7 @@ import { photographerPortraitTemplate } from "./photographerPortrait.js";
 
 // Fournit un article contenant les informations d'un photographe
 // Portrait, nom, ville, pays, prix
-export function photographerCardTemplate({
+export const photographerCardTemplate = ({
   id,
   name,
   portrait,
@@ -10,7 +10,7 @@ export function photographerCardTemplate({
   city,
   country,
   price,
-}) {
+}) => {
   const article = document.createElement("article");
   article.className = "card";
 
@@ -45,4 +45,4 @@ export function photographerCardTemplate({
   article.appendChild(p3);
 
   return article;
-}
+};

@@ -2,7 +2,7 @@ import { PATH_ASSETS, PATH_MEDIA } from "../utils/consts.js";
 
 // Retourne soit une IMG soit une VIDEO, suivant le pattern
 // Factory
-export function mediaFactoryTemplate(media, thumbnail = false) {
+export const mediaFactoryTemplate = (media, thumbnail = false) => {
   let content;
   let src;
   if (media.image) {
@@ -30,4 +30,4 @@ export function mediaFactoryTemplate(media, thumbnail = false) {
   }
 
   return { src, content };
-}
+};
