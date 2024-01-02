@@ -68,7 +68,7 @@ const displayMedias = (medias) => {
   // (on utilise la closure)
   const launchLightbox = (e) => {
     e.preventDefault();
-    const key = e.currentTarget.closest(".card").dataset.key;
+    const key = parseInt(e.currentTarget.closest(".card").dataset.key);
     showLightbox(medias, key);
   };
 
