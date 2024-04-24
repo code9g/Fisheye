@@ -12,7 +12,7 @@ export const mediaFactoryTemplate = (media, thumbnail = false) => {
     }/${media.image}`;
     src = `${PATH_MEDIA}/${media.photographerId}/${media.image}`;
     content.alt = media.title;
-    content.className = "media picture";
+    content.className = "picture";
   } else if (media.video) {
     content = document.createElement("video");
     content.src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
@@ -22,14 +22,15 @@ export const mediaFactoryTemplate = (media, thumbnail = false) => {
       content.muted = true;
       content.autoplay = true;
     }
-    content.className = "media video";
+    content.className = "video";
   } else {
     content = document.createElement("img");
     content.src = `${PATH_ASSETS}/images/no-content.jpg`;
     content.alt = media.title;
     src = `${PATH_ASSETS}/images/no-content.jpg`;
-    content.className = "media picture";
+    content.className = "picture";
   }
+  content.classList.add("media");
 
   return { src, content };
 };
