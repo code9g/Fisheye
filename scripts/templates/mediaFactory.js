@@ -18,7 +18,9 @@ export const mediaFactoryTemplate = (media, thumbnail = false) => {
     content.src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
     src = `${PATH_MEDIA}/${media.photographerId}/${media.video}`;
     if (!thumbnail) {
-      content.setAttribute("controls", "");
+      content.controls = true;
+      content.muted = true;
+      content.autoplay = true;
     }
     content.className = "media video";
   } else {
