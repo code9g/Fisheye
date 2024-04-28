@@ -22,14 +22,14 @@ export const mediaCardTemplate = (media) => {
 
   const h3 = document.createElement("h3");
   h3.className = "title";
-  h3.innerText = title;
+  h3.textContent = title;
 
   const likesDiv = document.createElement("div");
   likesDiv.className = "card-likes";
 
   const span = document.createElement("span");
   span.className = "likes-info";
-  span.innerText = `${likes}`;
+  span.textContent = `${likes}`;
   likesDiv.appendChild(span);
 
   const btn = document.createElement("button");
@@ -37,9 +37,9 @@ export const mediaCardTemplate = (media) => {
 
   btn.type = "button";
   btn.ariaLabel = "Ajouter un like";
-  btn.innerHTML = `<i class="fa-${
+  btn.innerHTML = `<span class="fa-${
     media.liked ? "solid" : "regular"
-  } fa-heart"></i>`;
+  } fa-heart"></span>`;
 
   likesDiv.appendChild(btn);
 
